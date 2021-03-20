@@ -1,0 +1,44 @@
+{
+    "revenus": {
+        "january": 1256,
+        "february": 1634,
+        "march": 1490,
+        "april": 2043,
+        "may": 1682,
+        "june": 1702,
+        "july": 1841,
+        "august": 2187,
+        "september": 2345,
+        "october": 1967,
+        "november": 2216,
+        "december": 2489
+    },
+    "transactions": {
+        "january": 34,
+        "february": 46,
+        "march": 36,
+        "april": 51,
+        "may": 44,
+        "june": 47,
+        "july": 53,
+        "august": 64,
+        "september": 70,
+        "october": 55,
+        "november": 67,
+        "december": 73
+    },
+    "monthly_visits": {
+        "january": 89,
+        "february": 101,
+        "march": 93,
+        "april": 139,
+        "may": 203,
+        "june": 278,
+        "july": 315,
+        "august": 347,
+        "september": 420,
+        "october": 400,
+        "november": 452,
+        "december": 478
+    }
+}

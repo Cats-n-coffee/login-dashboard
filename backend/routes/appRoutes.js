@@ -1,24 +1,18 @@
-const express = require('express');
+import express from 'express';
+import { loginGet, loginPost, signUpGet, signUpPost } from '../controllers/appControllers.js';
+
 const router = express.Router();
 
 router.get('/', (req,res) => {
     res.redirect('/login')
 });
 
-router.get('/login', (req,res) => {
-    res.send('my login')
-})
+router.get('/login', loginGet);
 
-router.post('/login', (req,res) => {
-    res.send('my login post')
-});
+router.post('/login', loginPost);
 
-router.get('/signup', (req,res) => {
-    res.send('my signup')
-});
+router.get('/signup', signUpGet);
 
-router.post('/signup', (req,res) => {
-    res.send('my signup post')
-});
+router.post('/signup', signUpPost);
 
-module.exports = router;
+export default router;

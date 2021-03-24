@@ -1,9 +1,5 @@
-const insertQuery = ([...values]) => {
-    return `INSERT INTO users ${values[0]}, ${values[1]}, ${values[2]}`;
-};
+const insertQuery = `INSERT INTO users(username, email, password) VALUES($1, $2, $3) RETURNING *`;
 
-const selectQuery = ([...values]) => {
-    return `SELECT ${values[0]}, ${values[1]} FROM users WHERE ${values[0]}`;
-};
+const selectQuery = `SELECT * FROM users WHERE email = $1`;
 
 export { insertQuery, selectQuery };

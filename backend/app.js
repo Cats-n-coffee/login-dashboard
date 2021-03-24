@@ -18,8 +18,8 @@ const DB_URL = process.env.DB_URL;
 // .catch(err => console.log('could not connect to db', err))
 // .finally(() => client.end())
 
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(routes);
 
 app.listen(PORT, () => {

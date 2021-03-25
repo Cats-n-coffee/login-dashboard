@@ -4,26 +4,41 @@ import bcrypt from 'bcrypt';
 const hashPass = (password) => {
     const saltRounds = 10;
 
+    // synchronus
     const hashPass = bcrypt.hashSync(password, saltRounds);
     return hashPass;
 
-    // const hashedPass = bcrypt.hash(password, saltRounds)
-    //                          .then(res => console.log(res))
-    //                          .then(res => res)
-    //                          .catch(err => console.log(err))
-    // return hashedPass;
+    // async callback returns null
+    // bcrypt.hash(password, saltRounds, function(err, result) {
+    //     if (err) {
+    //         console.log('could not hash password');
+    //         throw new Error('could not hash password');
+    //     }
+    //     console.log('hashed password')
+    //     return result;
+    // })
+
+    // this promise returns null
+    // bcrypt.hash(password, saltRounds)
+    // .then(result => {
+    //     console.log(result)
+    //     return result
+    // })
+    // .catch(err => console.log(err))
 }
-// TRY THIS
-// var promise = checkUrlLink(send_to_url, event)
-// .then(function(url_link) { 
-//     console.log('URL LINK in promisse' + url_link); 
-//     return clients.openWindow(url_link); 
-// };
 
 // this function compares the password with the hashed from the database, POST /login.
-const comparePass = async (password, hashedPassword) => {
+const comparePass = (password, hashedPassword) => {
     const checkPass = bcrypt.compareSync(password, hashedPassword);
     return checkPass;
+
+    // console.log(password, hashedPassword)
+    // bcrypt.compare(password, hashedPassword)
+    // .then(result => {
+    //     console.log('logged in promise');
+    //     return result;
+    // })
+    // .catch(err => console.log(err))
 }
 
 export { hashPass, comparePass }

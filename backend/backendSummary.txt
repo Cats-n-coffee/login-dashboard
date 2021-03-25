@@ -1,0 +1,34 @@
+    **** USING ES6 SYNTAX ***
+
+Using ES6 syntax required to make some adjustments: install Babel and some of its packages(and add Babelrc file),
+add .js at the end of each imported path.
+
+
+    *** APP.JS ***
+
+App.js as a couple packages as middleware: urlencoded, json and cookie-parser. We also use all the routes from the 
+appRoutes.js file.
+
+
+    *** ROUTES ***
+
+All the routes are set in appRoutes.js and use they own controller from appControllers.js.
+/dashboard is the only protected route so far.
+The /logout route removes the JWT from the cookies.
+
+
+    *** INTERACTION WITH DATABASE ***
+
+The connection to ElephantSQL is made in models/pool.js (url string is imported from .env).
+This connection is used in the appControllers.js in the 2 POST requests /signup and /login.
+Both query strings are made in models/queries.js.
+
+The function loginPost queries the Db with a SELECT string that uses the email as a value. When the response 
+comes back, the hashed password is compared with the password entered by the user. If there is a match a JWT will
+be sent and stored in the user's cookies.
+
+The function signUpPost queries the Db with an INSERT string, to store all the data the user inputs when filling
+out the form. Before the data is stored, the password is hashed using a helper function helpers/hashPass.js (using bcrypt).
+When the response is sent, a JWT is stored in the cookies.
+
+

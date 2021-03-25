@@ -1,6 +1,7 @@
 import express from 'express';
 import routes from './routes/appRoutes.js';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import '@babel/polyfill';
 
 dotenv.config();
@@ -20,6 +21,7 @@ const DB_URL = process.env.DB_URL;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(routes);
 
 app.listen(PORT, () => {

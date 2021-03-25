@@ -1,7 +1,14 @@
+import jwt from 'jsonwebtoken';
+import cookieParser from 'cookie-parser';
+
 import pool from '../models/pool.js';
 import { newConnection } from '../models/connection.js';
 import { insertQuery, selectQuery } from '../models/queries.js';
-import { hashPass, comparePass } from '../middleware/hashPass.js';
+import { hashPass, comparePass } from '../helpers/hashPass.js';
+
+const generateToken = (email) => {
+    return jwt.sign({ email }, 'LotsOfStreetsCatsAroundHere', { expiresIn: 1800 })
+}
 
 export const loginGet = async (req, res) => {
     res.send('mylogin get show me the login page')
@@ -12,7 +19,6 @@ export const loginGet = async (req, res) => {
 // distribute the route/page for authenticated user in login/signup
 // ensure protected routes take the auth
 export const loginPost = async (req, res) => {
-    res.send('my login post');
     const { email, password } = req.body;
     
     try {
@@ -22,14 +28,13 @@ export const loginPost = async (req, res) => {
                     console.log(user);
                     const checkUser = comparePass(password, user.password)
                     if (checkUser) {
-                        //send token
+                        const token = generateToken(email);
+                        res.status(200).cookie('jwt', token).json(token);   
                     }
                     else {
                         res.redirect('/login');
                     }
-                })
-        res.status(200);
-        
+                })        
         
     }
     catch (err) {
@@ -43,16 +48,22 @@ export const signUpGet = (req, res) => {
 
 export const signUpPost = async (req, res) => {
     const { username, email, password } = req.body;
-    // password hash here before making the query string or hashed in the function
+
+    // password hash here before making the query string
     const hashedPassword = hashPass(password);
     console.log('password', hashedPassword);
     
     try {
         const newUser = await pool.query(insertQuery, ([username, email, hashedPassword]));
-        res.status(200).json(res.body)
+        const token = generateToken(email)
+        res.status(200).cookie('jwt', token).json(token)
         console.log('newUser', newUser);
     }
     catch (err) {
         console.log('error', err)
     }
+}
+
+export const dashboardGet = (req, res) => {
+    res.send('dashboard')
 }

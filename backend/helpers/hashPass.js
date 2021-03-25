@@ -4,17 +4,17 @@ import bcrypt from 'bcrypt';
 const hashPass = (password) => {
     const saltRounds = 10;
     // solution one: using the the hash funciton in a synchronous way
-    // return bcrypt.hashSync(password, saltRounds);
+    return bcrypt.hashSync(password, saltRounds);
 
     // async callback returns null
-    bcrypt.hash(password, saltRounds, function(err, result) {
-        if (err) {
-            console.log('could not hash password');
-            throw new Error('could not hash password');
-        }
-        console.log('hashed password')
-        return result;
-    })
+    // bcrypt.hash(password, saltRounds, function(err, result) {
+    //     if (err) {
+    //         console.log('could not hash password');
+    //         throw new Error('could not hash password');
+    //     }
+    //     console.log('hashed password')
+    //     return result;
+    // })
 
     // the second solution. using callback together with promise
     // we want the result(error or the data) for the promise, so we return a promise

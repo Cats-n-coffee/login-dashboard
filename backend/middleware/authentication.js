@@ -13,27 +13,33 @@ const authenticateUser = (req, res, next) => {
                 res.status(403)
                 console.log('error verifying token', err);
             }
-            console.log('token verified')
-            req.user = user;
-            res.status(200);
+            else {
+                console.log('token verified')
+                req.user = user;
+                res.status(200);
+            }
             next()
         })
-
-        // try {
-        //     const user = jwt.verify(token, 'LotsOfStreetsCatsAroundHere');
-        //     req.user = user; 
-        //     next()// make sure where this function goes
-        // }
-        // catch (err) {
-        //     res.status(403)
-        //     console.log(err)
-        //     throw new Error;
-        // }
     }
     else {
         res.status(403).redirect('/login');
-    }
-    
+    }  
 }
 
-export { authenticateUser };
+// verifies the refreshToken 
+const verifyRefreshToken = (refreshToken) => {
+    return new Promise((resolve, reject) => {
+        jwt.verify(refreshToken, 'MoreCatsAreHangingOut', function(err, result) {
+            if (err) {
+                return reject(err)
+            }
+            else {
+                const userEmail = result.email;
+                console.log(userEmail)
+                return resolve(userEmail)
+            }
+        })
+    })
+}
+
+export { authenticateUser, verifyRefreshToken };

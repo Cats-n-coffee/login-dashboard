@@ -95,7 +95,7 @@ export const logoutGet = (req, res) => {
 
 };
 
-export const refreshTokenPost = async (req, res) => {
+export const refreshTokenPost = (req, res) => {
     const { refresh_token } = req.body;
     if (!refresh_token) {
       res.status(403);

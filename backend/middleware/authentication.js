@@ -35,7 +35,7 @@ const verifyRefreshToken = (refreshToken) => {
             }
             else {
                 const userEmail = result.email;
-                console.log(userEmail)
+                console.log('verified', userEmail)
                 return resolve(userEmail)
             }
         })

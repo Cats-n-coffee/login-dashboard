@@ -13,7 +13,7 @@ const generateToken = (email) => {
 
 const generateRefreshToken = (email) => {
     return jwt.sign({ email }, "MoreCatsAreHangingOut", {
-        expiresIn: '1y'
+        expiresIn: '7d'
       });
 }
 
@@ -95,26 +95,21 @@ export const logoutGet = (req, res) => {
 
 };
 
-// store refreshToken in db after emission in POST /signup and /login X
-// store refreshToken in cookies with other token X
-// match the refreshtokens in refreshTokenPost
-// make 2 query strings for the database in queries.js X
 export const refreshTokenPost = async (req, res) => {
-  try {
-    const { refreshToken } = req.body;
-    if (!refreshToken) {
-      res.status(404);
+    const { refresh_token } = req.body;
+    if (!refresh_token) {
+      res.status(403);
     }
     else {
-      const userEmail = await verifyRefreshToken(refreshToken);
-      console.log(refreshToken)
-
-      const newToken = await generateToken(userEmail);
-      const newRefreshToken = await generateRefreshToken(userEmail);
-      res.json({ newToken, newRefreshToken});
+      return pool.query(selectToken, [refresh_token])
+                 .then(result => {
+                    const token = result.rows[0].refresh_token;
+                    return verifyRefreshToken(token);
+                 })
+                 .then((userEmail) => {
+                    const newToken = generateToken(userEmail);
+                    res.cookie("jwt", newToken).json({ newToken }) 
+                 })
+                 .catch(err => console.log(err))
     }
-  }
-  catch (err) {
-    console.log(err)
-  }
 }

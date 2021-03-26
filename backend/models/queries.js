@@ -5,7 +5,7 @@ const selectQuery = `SELECT * FROM users WHERE email = $1`;
 
 const updateWithToken = `UPDATE users SET refresh_token = $1 WHERE email = $2`;
 
-const selectToken = `SELECT refresh_token FROM users WHERE email = $1`;
+const selectToken = `SELECT * FROM users WHERE refresh_token = $1`;
 
 const deleteToken = `UPDATE users SET refresh_token = null WHERE email = $1`;
 

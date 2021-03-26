@@ -68,11 +68,13 @@ export const signUpPost = async (req, res) => {
     ]);
     const token = generateToken(email);
     const refreshToken = generateRefreshToken(email);
+    const addRefreshToken = await pool.query(updateWithToken, [refreshToken, email]); 
+    
     res.status(200)
        .cookie("jwt", token)
        .cookie("refresh_token", refreshToken)
        .json({ token, refreshToken});
-    const addRefreshToken = await pool.query(updateWithToken, [refreshToken, email]); // does this need to be done earlier ? (would it slow down the response to frontend)
+    
     console.log("newUser", newUser);
   } catch (err) {
     if (err.code === "23505") {

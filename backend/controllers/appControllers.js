@@ -40,8 +40,8 @@ export const loginPost = (req, res) => {
     .query(selectQuery, [email])
     .then(async (result) => {
       const user = result.rows[0];
-      console.log(user);
       const checkUser = comparePass(password, user.password);
+      delete user.password;
       if (checkUser) {
         const token = generateToken(email);
         const refreshToken = generateRefreshToken(email);
@@ -65,13 +65,14 @@ export const loginPost = (req, res) => {
                 "; maxAge=604800; httpOnly=true;",
             ],
           })
-          .json({ email, username, token, refreshToken });
+          .json({ ...user, token, refreshToken });
       } else {
         res.status(403).json({ msg: "Invalid authentication data" });
       }
     })
     .then((insertedToken) => insertedToken)
     .catch((e) => {
+      console.log(e);
       res.status(500).json({ msg: JSON.stringify(e) });
     });
 };
@@ -92,13 +93,13 @@ export const signUpPost = async (req, res) => {
       email,
       hashedPassword,
     ]);
+    delete newUser.password
     const token = generateToken(email);
     const refreshToken = generateRefreshToken(email);
-    const addRefreshToken = await pool.query(updateWithToken, [
+    await pool.query(updateWithToken, [
       refreshToken,
       email,
     ]);
-
     res
       .status(200)
       .header({
@@ -107,8 +108,7 @@ export const signUpPost = async (req, res) => {
           "refresh_token=" + refreshToken + "; maxAge=604800; httpOnly=true;",
         ],
       })
-      .json({ email, username, token, refreshToken });
-
+      .json({ ...newUser, token, refreshToken });
     console.log("newUser", newUser);
   } catch (err) {
     if (err.code === "23505") {
@@ -119,14 +119,8 @@ export const signUpPost = async (req, res) => {
 };
 
 export const dashboardGet = (req, res) => {
-  const { email } = req.user;
-
   try {
-    if (email) {
-      res.status(200).json({ graphData, tableData });
-    } else {
-      res.status(401).send("not authorized");
-    }
+    res.status(200).json({ graphData, tableData });
   } catch (err) {
     res.status(404).send("cannot find data");
   }
@@ -134,7 +128,6 @@ export const dashboardGet = (req, res) => {
 
 export const logoutGet = async (req, res) => {
   const { email } = req.headers;
-
   try {
     if (email) {
       await pool.query(deleteToken, [email]);
@@ -165,8 +158,8 @@ export const refreshTokenPost = (req, res) => {
       // we can either find a record with that refresh token or not
       const token = result.rows[0].refresh_token;
       // if we find out the token, we verify the token with a value
-      // othewise, we verify the token with undefined
-      // Verifying the expired  and the undefined token value give us rection inside the verifyRefreshToken method
+      // otherwise, we verify the token with an undefined value.
+      // Verifying witht either the expired  or the undefined token value gives us rejection inside the verifyRefreshToken method
       return verifyRefreshToken(token);
     })
     .then((userEmail) => {

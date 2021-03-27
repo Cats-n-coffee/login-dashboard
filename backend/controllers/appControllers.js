@@ -10,8 +10,8 @@ import {
 
   selectToken, updateWithToken
 } from "../models/queries.js";
-// import graphData from '../datasets/data-graphs.json';
-// import tableData from '../datasets/data-table.json';
+import * as graphData from "../datasets/data-graphs.json";
+import * as tableData from '../datasets/data-table.json';
 
 dotenv.config();
 
@@ -48,12 +48,18 @@ export const loginPost = (req, res) => {
         // usually, we wrap the data with a json object, as when user login un, we may need to return
         // user's email, username stuff back to frontend side
         await pool.query(updateWithToken, [refreshToken, email]);
+        // res
+        //   .status(200)
+        //   .cookie("jwt", token, { maxAge: 1801, httpOnly: true })
+        //   .cookie("refresh_token", refreshToken, {
+        //     maxAge: 604800,
+        //     httpOnly: true,
+        //   })
         res
           .status(200)
-          .cookie("jwt", token, { maxAge: 1801, httpOnly: true })
-          .cookie("refresh_token", refreshToken, {
-            maxAge: 604800,
-            httpOnly: true,
+          .header({
+            'Set-cookie': ['jwt=' + token + '; maxAge=1801; httpOnly=true;',
+                           'refresh_token=' + refreshToken + '; maxAge=604800; httpOnly=true;']
           })
           .json({ email, username, token, refreshToken });
         
@@ -91,10 +97,12 @@ export const signUpPost = async (req, res) => {
     ]);
 
     res
-      .status(200)
-      .cookie("jwt", token, { maxAge: 1801, httpOnly: true })
-      .cookie("refresh_token", refreshToken, { maxAge: 604800, httpOnly: true })
-      .json({ email, username, token, refreshToken });
+        .status(200)
+        .header({
+          'Set-cookie': ['jwt=' + token + '; maxAge=1801; httpOnly=true;',
+                         'refresh_token=' + refreshToken + '; maxAge=604800; httpOnly=true;']
+        })
+        .json({ email, username, token, refreshToken });
 
     console.log("newUser", newUser);
   } catch (err) {
@@ -106,12 +114,20 @@ export const signUpPost = async (req, res) => {
 };
 
 export const dashboardGet = (req, res) => {
+  const { email } = req.user;
+  
   try {
-    const graphFile = fs.readFileSync("../datasets/data-graphs.json", "utf-8");
-    //const graphData = JSON.parse(graphFile);
-
-    res.json({ graphFile });
-  } catch (err) {}
+    if (email) {
+      res
+        .status(200)
+        .json({ graphData, tableData })
+    }
+    else {
+      res.status(401).send('not authorized')
+    }
+  } catch (err) {
+    res.status(404).send('cannot find data');
+  }
 };
 
 export const logoutGet = async (req, res) => {

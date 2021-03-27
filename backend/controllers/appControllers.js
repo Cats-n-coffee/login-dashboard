@@ -46,7 +46,7 @@ export const loginPost = (req, res) => {
         res.status(200)
            .cookie("jwt", token, { maxAge: 1801, httpOnly: true })
            .cookie("refresh_token", refreshToken, { maxAge: 604800, httpOnly: true })
-           .json({ token, refreshToken });
+           .json({ email, username, token, refreshToken });
         return pool.query(updateWithToken, [refreshToken, email])
       } else {
         res.status(403).json({ msg: "Invalid authentication data" });
@@ -81,7 +81,7 @@ export const signUpPost = async (req, res) => {
     res.status(200)
        .cookie("jwt", token, { maxAge: 1801, httpOnly: true })
        .cookie("refresh_token", refreshToken, { maxAge: 604800, httpOnly: true })
-       .json({ token, refreshToken });
+       .json({ email, username, token, refreshToken });
     
     console.log("newUser", newUser);
   } catch (err) {
@@ -106,17 +106,23 @@ export const dashboardGet = (req, res) => {
 };
 
 export const logoutGet = async (req, res) => {
-  const { email} = req.body;
+  const { email } = req.body;
+  console.log(req.headers)
 
   try {
-    await pool.query(deleteToken, [email]);
-    res.status(200)
-       .cookie("jwt", "", { maxAge: 0 })
-       .cookie("refresh_token", "", { maxAge: 0 })
-       .send('logged out');
+    if (email) {
+      await pool.query(deleteToken, [email]);
+      res.status(200)
+        .cookie("jwt", "", { maxAge: 0 })
+        .cookie("refresh_token", "", { maxAge: 0 })
+        .send('logged out');
+    }
+    else {
+      res.status(405).send('not for you')
+    }
   }
   catch (err) {
-    res.status(404)
+    res.status(404).send('nope')
   }
 };
 

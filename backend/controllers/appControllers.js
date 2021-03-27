@@ -115,12 +115,13 @@ export const signUpPost = async (req, res) => {
 
 export const dashboardGet = (req, res) => {
   const { email } = req.user;
-  
+
   try {
     if (email) {
       res
         .status(200)
         .json({ graphData, tableData })
+        //.download('/datasets/data-graphs.json')
     }
     else {
       res.status(401).send('not authorized')

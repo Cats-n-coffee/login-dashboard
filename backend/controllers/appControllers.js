@@ -4,6 +4,9 @@ import { comparePass, hashPass } from "../helpers/hashPass.js";
 import pool from "../models/pool.js";
 import { insertQuery, selectQuery, updateWithToken, selectToken, deleteToken } from "../models/queries.js";
 import { verifyRefreshToken } from '../middleware/authentication.js';
+import fs from 'fs';
+// import graphData from '../datasets/data-graphs.json';
+// import tableData from '../datasets/data-table.json';
 
 dotenv.config();
 
@@ -78,7 +81,7 @@ export const signUpPost = async (req, res) => {
     res.status(200)
        .cookie("jwt", token, { maxAge: 1801, httpOnly: true })
        .cookie("refresh_token", refreshToken, { maxAge: 604800, httpOnly: true })
-       .json({ token, refreshToken});
+       .json({ token, refreshToken });
     
     console.log("newUser", newUser);
   } catch (err) {
@@ -90,16 +93,31 @@ export const signUpPost = async (req, res) => {
 };
 
 export const dashboardGet = (req, res) => {
-  res.send("dashboard");
+  try {
+    const graphFile = fs.readFileSync('../datasets/data-graphs.json', 'utf-8');
+    //const graphData = JSON.parse(graphFile);
+
+    res.json({ graphFile });
+  }
+  catch (err) {
+
+  }
+  
 };
 
-export const logoutGet = (req, res) => {
-  res.cookie("jwt", "", { maxAge: 0 })
-     .cookie("refresh_token", "", { maxAge: 0 });
-  return pool.query(deleteToken, [req.body.email])
-             .then(res => res)
-             .catch(err => console.log(err))
+export const logoutGet = async (req, res) => {
+  const { email} = req.body;
 
+  try {
+    await pool.query(deleteToken, [email]);
+    res.status(200)
+       .cookie("jwt", "", { maxAge: 0 })
+       .cookie("refresh_token", "", { maxAge: 0 })
+       .send('logged out');
+  }
+  catch (err) {
+    res.status(404)
+  }
 };
 
 export const refreshTokenPost = (req, res) => {

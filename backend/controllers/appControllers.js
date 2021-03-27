@@ -1,17 +1,17 @@
 import dotenv from "dotenv";
-import fs from "fs";
 import jwt from "jsonwebtoken";
+import * as graphData from "../datasets/data-graphs.json";
+import * as tableData from "../datasets/data-table.json";
 import { comparePass, hashPass } from "../helpers/hashPass.js";
 import { verifyRefreshToken } from "../middleware/authentication.js";
 import pool from "../models/pool.js";
 import {
-  deleteToken, insertQuery,
+  deleteToken,
+  insertQuery,
   selectQuery,
-
-  selectToken, updateWithToken
+  selectToken,
+  updateWithToken
 } from "../models/queries.js";
-import * as graphData from "../datasets/data-graphs.json";
-import * as tableData from '../datasets/data-table.json';
 
 dotenv.config();
 
@@ -58,11 +58,14 @@ export const loginPost = (req, res) => {
         res
           .status(200)
           .header({
-            'Set-cookie': ['jwt=' + token + '; maxAge=1801; httpOnly=true;',
-                           'refresh_token=' + refreshToken + '; maxAge=604800; httpOnly=true;']
+            "Set-cookie": [
+              "jwt=" + token + "; maxAge=1801; httpOnly=true;",
+              "refresh_token=" +
+                refreshToken +
+                "; maxAge=604800; httpOnly=true;",
+            ],
           })
           .json({ email, username, token, refreshToken });
-        
       } else {
         res.status(403).json({ msg: "Invalid authentication data" });
       }
@@ -97,12 +100,14 @@ export const signUpPost = async (req, res) => {
     ]);
 
     res
-        .status(200)
-        .header({
-          'Set-cookie': ['jwt=' + token + '; maxAge=1801; httpOnly=true;',
-                         'refresh_token=' + refreshToken + '; maxAge=604800; httpOnly=true;']
-        })
-        .json({ email, username, token, refreshToken });
+      .status(200)
+      .header({
+        "Set-cookie": [
+          "jwt=" + token + "; maxAge=1801; httpOnly=true;",
+          "refresh_token=" + refreshToken + "; maxAge=604800; httpOnly=true;",
+        ],
+      })
+      .json({ email, username, token, refreshToken });
 
     console.log("newUser", newUser);
   } catch (err) {
@@ -118,16 +123,12 @@ export const dashboardGet = (req, res) => {
 
   try {
     if (email) {
-      res
-        .status(200)
-        .json({ graphData, tableData })
-        //.download('/datasets/data-graphs.json')
-    }
-    else {
-      res.status(401).send('not authorized')
+      res.status(200).json({ graphData, tableData });
+    } else {
+      res.status(401).send("not authorized");
     }
   } catch (err) {
-    res.status(404).send('cannot find data');
+    res.status(404).send("cannot find data");
   }
 };
 
@@ -137,35 +138,50 @@ export const logoutGet = async (req, res) => {
   try {
     if (email) {
       await pool.query(deleteToken, [email]);
-      res.status(200)
+      res
+        .status(200)
         .cookie("jwt", "", { maxAge: 0 })
         .cookie("refresh_token", "", { maxAge: 0 })
-        .send('logged out');
+        .send("logged out");
+    } else {
+      res.status(405).send("not for you");
     }
-    else {
-      res.status(405).send('not for you')
-    }
-  }
-  catch (err) {
-    res.status(404).send('nope')
+  } catch (err) {
+    res.status(404).send("nope");
   }
 };
 
 export const refreshTokenPost = (req, res) => {
   const { refresh_token } = req.body;
+
+  // no refresh token provided.
   if (!refresh_token) {
-    res.status(403);
-  } else {
-    return pool
-      .query(selectToken, [refresh_token])
-      .then((result) => {
-        const token = result.rows[0].refresh_token;
-        return verifyRefreshToken(token);
-      })
-      .then((userEmail) => {
-        const newToken = generateToken(userEmail);
-        res.cookie("jwt", newToken).json({ newToken });
-      })
-      .catch((err) => console.log(err));
+    return res.status(403).json({ msg: "Unauthenticated request." });
   }
+  // provided refresh token
+  return pool
+    .query(selectToken, [refresh_token])
+    .then((result) => {
+      // we can either find a record with that refresh token or not
+      const token = result.rows[0].refresh_token;
+      // if we find out the token, we verify the token with a value
+      // othewise, we verify the token with undefined
+      // Verifying the expired  and the undefined token value give us rection inside the verifyRefreshToken method
+      return verifyRefreshToken(token);
+    })
+    .then((userEmail) => {
+      // so if we passed the verification. We will get the userEmail by decoding
+      const newToken = generateToken(userEmail);
+      // make the json data to have an identical schema by using token instead of newToken
+      res.cookie("jwt", newToken).json({ token: newToken });
+    })
+    .catch((err) => {
+      //  we need to end the request with the `.json()` method
+      // because without using the `json or send` method hangs up our request
+      // when we enter this error handling method
+      return res.status(403).json({
+        msg: "Unauthenticated request",
+        error: err
+      });
+    });
 };

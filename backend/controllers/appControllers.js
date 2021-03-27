@@ -40,8 +40,8 @@ export const loginPost = (req, res) => {
     .query(selectQuery, [email])
     .then(async (result) => {
       const user = result.rows[0];
-      console.log(user);
       const checkUser = comparePass(password, user.password);
+      delete user.password;
       if (checkUser) {
         const token = generateToken(email);
         const refreshToken = generateRefreshToken(email);
@@ -65,13 +65,14 @@ export const loginPost = (req, res) => {
                 "; maxAge=604800; httpOnly=true;",
             ],
           })
-          .json({ email, username, token, refreshToken });
+          .json({ ...user, token, refreshToken });
       } else {
         res.status(403).json({ msg: "Invalid authentication data" });
       }
     })
     .then((insertedToken) => insertedToken)
     .catch((e) => {
+      console.log(e);
       res.status(500).json({ msg: JSON.stringify(e) });
     });
 };
@@ -92,13 +93,13 @@ export const signUpPost = async (req, res) => {
       email,
       hashedPassword,
     ]);
+    delete newUser.password
     const token = generateToken(email);
     const refreshToken = generateRefreshToken(email);
-    const addRefreshToken = await pool.query(updateWithToken, [
+    await pool.query(updateWithToken, [
       refreshToken,
       email,
     ]);
-
     res
       .status(200)
       .header({
@@ -107,8 +108,7 @@ export const signUpPost = async (req, res) => {
           "refresh_token=" + refreshToken + "; maxAge=604800; httpOnly=true;",
         ],
       })
-      .json({ email, username, token, refreshToken });
-
+      .json({ ...newUser, token, refreshToken });
     console.log("newUser", newUser);
   } catch (err) {
     if (err.code === "23505") {

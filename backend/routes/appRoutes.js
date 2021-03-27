@@ -1,18 +1,10 @@
 import express from 'express';
-import { loginGet, loginPost, signUpGet, signUpPost, dashboardGet, logoutGet, refreshTokenPost } from '../controllers/appControllers.js';
+import { loginPost, signUpPost, dashboardGet, logoutGet, refreshTokenPost } from '../controllers/appControllers.js';
 import { authenticateUser } from '../middleware/authentication.js';
 
 const router = express.Router();
 
-router.get('/', (req,res) => {
-    res.redirect('/login')
-});
-
-router.get('/login', loginGet);
-
 router.post('/login', loginPost);
-
-router.get('/signup', signUpGet);
 
 router.post('/signup', signUpPost);
 

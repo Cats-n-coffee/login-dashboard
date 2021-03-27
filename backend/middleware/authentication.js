@@ -6,11 +6,11 @@ dotenv.config();
 // function that checks the token to protected content/routes
 const authenticateUser = (req, res, next) => {
   const allCookies = req.headers.cookie;
-  const cookie = allCookies.split("; ")[0];
-  console.log(cookie);
-
-  if (cookie) {
+  
+  if (allCookies) {
+    const cookie = allCookies.split("; ")[0];
     const token = cookie.split("=")[1];
+    console.log(cookie);
 
     jwt.verify(token, process.env.TOKEN_SECRET, function (err, user) {
       if (err) {
@@ -24,7 +24,7 @@ const authenticateUser = (req, res, next) => {
       next();
     });
   } else {
-    res.status(403).redirect("/login");
+    res.status(403).json({ msg: 'Cannot authenticate token, access denied' });
   }
 };
 

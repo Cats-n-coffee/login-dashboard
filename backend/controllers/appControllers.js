@@ -13,10 +13,6 @@ import {
 } from "../models/queries.js";
 
 //Controllers for all routes
-export const loginGet = async (req, res) => {
-  res.send("mylogin get show me the login page");
-};
-
 export const loginPost = (req, res) => {
   const { email, password } = req.body;
   //   as we don't need data by waiting something, so we return the promise directly here
@@ -53,10 +49,6 @@ export const loginPost = (req, res) => {
     });
 };
 
-export const signUpGet = (req, res) => {
-  res.send("my signup show me the signup page");
-};
-
 export const signUpPost = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -68,7 +60,9 @@ export const signUpPost = async (req, res) => {
       email,
       hashedPassword,
     ]);
-    delete newUser.password
+    delete newUser.password // i think password was still there??
+    const onlyUserData = (newUser.rows[0]);
+    delete onlyUserData.password;
     const token = generateToken(email);
     const refreshToken = generateRefreshToken(email);
     await pool.query(updateWithToken, [
@@ -83,13 +77,18 @@ export const signUpPost = async (req, res) => {
           "refresh_token=" + refreshToken + "; maxAge=604800; httpOnly=true;",
         ],
       })
-      .json({ ...newUser, token, refreshToken });
-    console.log("newUser", newUser);
+      .json({ onlyUserData, token, refreshToken });
+    console.log("newUser", onlyUserData);
   } catch (err) {
     if (err.code === "23505") {
-      res.status(409).send("you already have an account"); // error code 409 for conflict
+      res.status(409).json({ 
+        msg: JSON.stringify(err.message), 
+        error: err  }); // error code 409 for conflict
+    } else {
+      res.status(500).json({ 
+        msg: JSON.stringify(err.message), 
+        error: err  });
     }
-    console.log("error", err);
   }
 };
 
@@ -97,7 +96,9 @@ export const dashboardGet = (req, res) => {
   try {
     res.status(200).json({ graphData, tableData });
   } catch (err) {
-    res.status(404).send("cannot find data");
+    res.status(404).json({ 
+      msg: JSON.stringify(err.message), 
+      error: err  });
   }
 };
 
@@ -110,12 +111,14 @@ export const logoutGet = async (req, res) => {
         .status(200)
         .cookie("jwt", "", { maxAge: 0 })
         .cookie("refresh_token", "", { maxAge: 0 })
-        .send("logged out");
+        .end();
     } else {
-      res.status(405).send("not for you");
+      res.status(405).json({ msg: "Not allowed" });
     }
   } catch (err) {
-    res.status(404).send("nope");
+    res.status(404).json({ 
+      msg: JSON.stringify(err.message), 
+      error: err  });
   }
 };
 
@@ -141,7 +144,7 @@ export const refreshTokenPost = (req, res) => {
       // so if we passed the verification. We will get the userEmail by decoding
       const newToken = generateToken(userEmail);
       // make the json data to have an identical schema by using token instead of newToken
-      res.cookie("jwt", newToken).json({ token: newToken });
+      res.cookie("jwt", newToken, { maxAge: 1800, httpOnly: true }).json({ token: newToken });
     })
     .catch((err) => {
       //  we need to end the request with the `.json()` method

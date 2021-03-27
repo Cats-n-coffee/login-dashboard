@@ -172,6 +172,7 @@ export const refreshTokenPost = (req, res) => {
     .then((userEmail) => {
       // so if we passed the verification. We will get the userEmail by decoding
       const newToken = generateToken(userEmail);
+      // make the json data to have an identical schema by using token instead of newToken
       res.cookie("jwt", newToken).json({ token: newToken });
     })
     .catch((err) => {

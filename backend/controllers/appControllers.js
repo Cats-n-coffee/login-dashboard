@@ -1,9 +1,8 @@
-import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
 import * as graphData from "../datasets/data-graphs.json";
 import * as tableData from "../datasets/data-table.json";
 import { comparePass, hashPass } from "../helpers/hashPass.js";
-import { verifyRefreshToken } from "../middleware/authentication.js";
+import { verifyRefreshToken } from "../helpers/verifyRefreshToken.js";
+import { generateToken, generateRefreshToken } from "../helpers/generateTokens.js";
 import pool from "../models/pool.js";
 import {
   deleteToken,
@@ -12,21 +11,6 @@ import {
   selectToken,
   updateWithToken
 } from "../models/queries.js";
-
-dotenv.config();
-
-// Generates a token when POST /signup or POST /login
-const generateToken = (email) => {
-  return jwt.sign({ email }, process.env.TOKEN_SECRET, {
-    expiresIn: 1800,
-  });
-};
-
-const generateRefreshToken = (email) => {
-  return jwt.sign({ email }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
-  });
-};
 
 //Controllers for all routes
 export const loginGet = async (req, res) => {
@@ -45,16 +29,8 @@ export const loginPost = (req, res) => {
       if (checkUser) {
         const token = generateToken(email);
         const refreshToken = generateRefreshToken(email);
-        // usually, we wrap the data with a json object, as when user login un, we may need to return
-        // user's email, username stuff back to frontend side
+      
         await pool.query(updateWithToken, [refreshToken, email]);
-        // res
-        //   .status(200)
-        //   .cookie("jwt", token, { maxAge: 1801, httpOnly: true })
-        //   .cookie("refresh_token", refreshToken, {
-        //     maxAge: 604800,
-        //     httpOnly: true,
-        //   })
         res
           .status(200)
           .header({
@@ -84,7 +60,6 @@ export const signUpGet = (req, res) => {
 export const signUpPost = async (req, res) => {
   const { username, email, password } = req.body;
 
-  // password hash here before making the query string
   const hashedPassword = hashPass(password);
 
   try {

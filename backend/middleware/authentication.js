@@ -28,23 +28,6 @@ const authenticateUser = (req, res, next) => {
   }
 };
 
-// verifies the refreshToken
-const verifyRefreshToken = (refreshToken) => {
-  return new Promise((resolve, reject) => {
-    jwt.verify(
-      refreshToken,
-      process.env.REFRESH_TOKEN_SECRET,
-      function (err, result) {
-        if (err) {
-          return reject(err);
-        } else {
-          const userEmail = result.email;
-          console.log("verified", userEmail);
-          return resolve(userEmail);
-        }
-      }
-    );
-  });
-};
 
-export { authenticateUser, verifyRefreshToken };
+
+export { authenticateUser };

@@ -1,4 +1,7 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // function that checks the token to protected content/routes
 const authenticateUser = (req, res, next) => {
@@ -8,7 +11,7 @@ const authenticateUser = (req, res, next) => {
     if (cookie) {
         const token = cookie.split('=')[1];
 
-        jwt.verify(token, 'LotsOfStreetsCatsAroundHere', function(err, user) {
+        jwt.verify(token, process.env.TOKEN_SECRET, function(err, user) {
             if (err) {
                 res.status(403)
                 console.log('error verifying token', err);
@@ -29,7 +32,7 @@ const authenticateUser = (req, res, next) => {
 // verifies the refreshToken 
 const verifyRefreshToken = (refreshToken) => {
     return new Promise((resolve, reject) => {
-        jwt.verify(refreshToken, 'MoreCatsAreHangingOut', function(err, result) {
+        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, function(err, result) {
             if (err) {
                 return reject(err)
             }

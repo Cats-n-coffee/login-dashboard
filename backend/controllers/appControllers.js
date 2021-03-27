@@ -1,22 +1,27 @@
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv';
 import { comparePass, hashPass } from "../helpers/hashPass.js";
 import pool from "../models/pool.js";
 import { insertQuery, selectQuery, updateWithToken, selectToken, deleteToken } from "../models/queries.js";
 import { verifyRefreshToken } from '../middleware/authentication.js';
 
+dotenv.config();
+
 // Generates a token when POST /signup or POST /login
 const generateToken = (email) => {
-  return jwt.sign({ email }, "LotsOfStreetsCatsAroundHere", {
+  return jwt.sign({ email }, process.env.TOKEN_SECRET, {
     expiresIn: 1800
   });
 };
 
 const generateRefreshToken = (email) => {
-    return jwt.sign({ email }, "MoreCatsAreHangingOut", {
+    return jwt.sign({ email }, process.env.REFRESH_TOKEN_SECRET, {
         expiresIn: '7d'
       });
 }
 
+
+//Controllers for all routes
 export const loginGet = async (req, res) => {
   res.send("mylogin get show me the login page");
 };
@@ -36,8 +41,8 @@ export const loginPost = (req, res) => {
         // usually, we wrap the data with a json object, as when user login un, we may need to return 
         // user's email, username stuff back to frontend side
         res.status(200)
-           .cookie("jwt", token)
-           .cookie("refresh_token", refreshToken)
+           .cookie("jwt", token, { maxAge: 1801, httpOnly: true })
+           .cookie("refresh_token", refreshToken, { maxAge: 604800, httpOnly: true })
            .json({ token, refreshToken });
         return pool.query(updateWithToken, [refreshToken, email])
       } else {
@@ -71,8 +76,8 @@ export const signUpPost = async (req, res) => {
     const addRefreshToken = await pool.query(updateWithToken, [refreshToken, email]); 
     
     res.status(200)
-       .cookie("jwt", token)
-       .cookie("refresh_token", refreshToken)
+       .cookie("jwt", token, { maxAge: 1801, httpOnly: true })
+       .cookie("refresh_token", refreshToken, { maxAge: 604800, httpOnly: true })
        .json({ token, refreshToken});
     
     console.log("newUser", newUser);

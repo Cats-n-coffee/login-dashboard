@@ -119,14 +119,8 @@ export const signUpPost = async (req, res) => {
 };
 
 export const dashboardGet = (req, res) => {
-  const { email } = req.user;
-
   try {
-    if (email) {
-      res.status(200).json({ graphData, tableData });
-    } else {
-      res.status(401).send("not authorized");
-    }
+    res.status(200).json({ graphData, tableData });
   } catch (err) {
     res.status(404).send("cannot find data");
   }
@@ -134,7 +128,6 @@ export const dashboardGet = (req, res) => {
 
 export const logoutGet = async (req, res) => {
   const { email } = req.headers;
-
   try {
     if (email) {
       await pool.query(deleteToken, [email]);

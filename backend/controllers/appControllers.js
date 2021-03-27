@@ -165,8 +165,8 @@ export const refreshTokenPost = (req, res) => {
       // we can either find a record with that refresh token or not
       const token = result.rows[0].refresh_token;
       // if we find out the token, we verify the token with a value
-      // othewise, we verify the token with undefined
-      // Verifying the expired  and the undefined token value give us rection inside the verifyRefreshToken method
+      // otherwise, we verify the token with an undefined value.
+      // Verifying witht either the expired  or the undefined token value gives us rejection inside the verifyRefreshToken method
       return verifyRefreshToken(token);
     })
     .then((userEmail) => {

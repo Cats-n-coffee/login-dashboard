@@ -5,8 +5,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "originalstart": "node --experimental-modules backend/app.js",
-    "start": "nodemon --exec babel-node backend/app.js"
+    "start": "node --experimental-json-modules app.js",
+    "dev": "nodemon --experimental-json-modules app.js"
   },
   "repository": {
     "type": "git",

@@ -60,9 +60,8 @@ export const signUpPost = async (req, res) => {
       email,
       hashedPassword,
     ]);
-    delete newUser.password // i think password was still there??
-    const onlyUserData = (newUser.rows[0]);
-    delete onlyUserData.password;
+    const user = (newUser.rows[0]);
+    delete user.password;
     const token = generateToken(email);
     const refreshToken = generateRefreshToken(email);
     await pool.query(updateWithToken, [
@@ -77,7 +76,7 @@ export const signUpPost = async (req, res) => {
           "refresh_token=" + refreshToken + "; maxAge=604800; httpOnly=true;",
         ],
       })
-      .json({ onlyUserData, token, refreshToken });
+      .json({ user, token, refreshToken });
     console.log("newUser", onlyUserData);
   } catch (err) {
     if (err.code === "23505") {
@@ -144,7 +143,7 @@ export const refreshTokenPost = (req, res) => {
       // so if we passed the verification. We will get the userEmail by decoding
       const newToken = generateToken(userEmail);
       // make the json data to have an identical schema by using token instead of newToken
-      res.cookie("jwt", newToken, { maxAge: 1800, httpOnly: true }).json({ token: newToken });
+      res.cookie("jwt", newToken, { path: "/api", maxAge: 1800, httpOnly: true }).json({ token: newToken });
     })
     .catch((err) => {
       //  we need to end the request with the `.json()` method

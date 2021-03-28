@@ -1,0 +1,38 @@
+{
+  "name": "Login-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "originalstart": "node --experimental-modules backend/app.js",
+    "start": "nodemon --exec babel-node backend/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cats-n-coffee/login-dashboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cats-n-coffee/login-dashboard/issues"
+  },
+  "homepage": "https://github.com/Cats-n-coffee/login-dashboard#readme",
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.5.1"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.12",
+    "@babel/preset-env": "^7.13.12"
+  }
+}

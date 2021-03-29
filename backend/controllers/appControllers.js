@@ -81,13 +81,11 @@ export const signUpPost = async (req, res) => {
   } catch (err) {
     if (err.code === "23505") {
       res.status(409).json({ 
-        msg: JSON.stringify(err.message), 
-        error: err  }); // error code 409 for conflict
+        msg: JSON.stringify(err.message),
+        error: err }); // error code 409 for conflict
     } else {
-      res.status(500).json({ 
-        msg: JSON.stringify(err.message), 
-        error: err  });
-    }
+      res.status(500).json({ msg: JSON.stringify(err) });
+    } 
   }
 };
 

@@ -147,7 +147,7 @@ export const refreshTokenPost = async (req, res) => {
 		const token = generateToken(userRecord.email);
 		res
 			.cookie("jwt", token, { path: "/api", maxAge: 1800, httpOnly: true, sameSite: 'none', secure: true })
-			.json({ token, refresh_token, user });
+			.json({ token, refresh_token, ...user });
 	} else {
 		return res.status(403).json({
 			msg: "Unauthenticated request",

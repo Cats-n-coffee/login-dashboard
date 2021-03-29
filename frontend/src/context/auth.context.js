@@ -7,17 +7,31 @@ import * as auth from "utils/auth";
 const AuthContext = React.createContext();
 AuthContext.displayName = "AuthContext";
 
-async function bootstrapData() {
-  const user = await auth.getUser();
-}
-
 export function AuthProvider(props) {
-  const { data: user, status, error } = useQuery({
+  const { data, status, error } = useQuery({
     queryKey: ["user"],
     queryFn: auth.getUser,
   });
-  const register = React.useCallback(() => auth.register, []);
-  const login = React.useCallback(() => auth.login, []);
+  const [user, setUser] = React.useState(data);
+  React.useEffect(() => {
+    if (status === "success" && data) {
+      setUser(data);
+    }
+  }, [status, data]);
+  const register = React.useCallback(
+    (form) => {
+      auth.register(form).then((data) => {
+        setUser(data);
+      });
+    },
+    [setUser]
+  );
+  const login = React.useCallback(
+    (form) => {
+      auth.login(form).then((data) => setUser(data));
+    },
+    [setUser]
+  );
   if (["loading", "idle"].includes(status)) {
     return (
       <div

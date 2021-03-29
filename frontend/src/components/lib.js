@@ -27,3 +27,11 @@ export const Content = styled.div`
     width: 79.08%;
   }
 `;
+
+export const Button = styled("button").attrs(() => ({ className: "btn" }))`
+  height: 3rem;
+  text-align: center;
+  min-width: 4rem;
+  border-radius: 0.375rem;
+  text-transform: capitalize;
+`;

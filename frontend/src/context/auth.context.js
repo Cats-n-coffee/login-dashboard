@@ -1,3 +1,5 @@
+// eslint-disable-next-line
+import styled from "styled-components/macro";
 import { useQuery } from "react-query";
 import * as React from "react";
 import * as auth from "utils/auth";
@@ -5,19 +7,39 @@ import * as auth from "utils/auth";
 const AuthContext = React.createContext();
 AuthContext.displayName = "AuthContext";
 
+async function bootstrapData() {
+  const user = await auth.getUser();
+}
+
 export function AuthProvider(props) {
   const { data: user, status, error } = useQuery({
     queryKey: ["user"],
-    queryFn: auth.getToken,
+    queryFn: auth.getUser,
   });
-  console.log(user, error, status);
+  const register = React.useCallback(() => auth.register, []);
+  const login = React.useCallback(() => auth.login, []);
   if (["loading", "idle"].includes(status)) {
-    return <p>Loading...</p>;
+    return (
+      <div
+        css={`
+          position: fixed;
+          top: 0;
+          width: 100vw;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 3rem;
+        `}
+      >
+        <p>Loading...</p>
+      </div>
+    );
   }
   if (status === "error") {
     return <p>{JSON.stringify(error)}</p>;
   }
-  const value = { user };
+  const value = { user, register, login };
   return <AuthContext.Provider value={value} {...props} />;
 }
 

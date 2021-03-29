@@ -66,7 +66,6 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
   }
   #root main {
-    width:100%;
     flex-grow: 1;
   }
   #root footer {
@@ -81,15 +80,15 @@ const GlobalStyle = createGlobalStyle`
   }
   ::-webkit-input-placeholder { /* Edge */
     color: var(--c10);
-    opacity: .5
+    text-transform: capitalize;
   }
   :-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: var(--c10);
-    opacity: .5;
+    text-transform: capitalize;
   }
   ::placeholder {
     color: var(--c10);
-    opacity: .5
+    text-transform: capitalize;
   }
 `;
 

@@ -21,6 +21,7 @@ export function logout() {
 
 export function getUser() {
   const refreshToken = Cookies.get(conf.refresh);
+  console.log(refreshToken);
   if (!refreshToken) return Promise.resolve(null);
   return axios.post("/refreshtoken", { refresh_token: refreshToken });
 }

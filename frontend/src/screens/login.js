@@ -1,7 +1,6 @@
 import * as React from "react";
 import AuthForm from "components/AuthForm";
 import { useAuth } from "context/auth.context";
-import * as auth from "utils/auth";
 
 export default function LoginScreen() {
   React.useEffect(() => {

@@ -149,7 +149,6 @@ export const refreshTokenPost = async (req, res) => {
 	} else {
 		return res.status(403).json({
 			msg: "Unauthenticated request",
-			error: err,
 		});
 	}
 };

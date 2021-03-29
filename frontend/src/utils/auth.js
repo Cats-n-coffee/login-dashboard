@@ -8,7 +8,7 @@ const conf = {
 
 export function login({ email, password }) {
   console.log("login", { email, password });
-  return axios.post("/login", { email, password });
+  return axios.post("/login", { email, password }, { withCredentials: true });
 }
 
 export function register({ username, email, password }) {
@@ -21,7 +21,6 @@ export function logout() {
 
 export function getUser() {
   const refreshToken = Cookies.get(conf.refresh);
-  console.log(refreshToken);
   if (!refreshToken) return Promise.resolve(null);
   return axios.post("/refreshtoken", { refresh_token: refreshToken });
 }

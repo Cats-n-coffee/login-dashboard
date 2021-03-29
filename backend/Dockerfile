@@ -1,7 +1,7 @@
-FROM node:15.10.0-alpine3.10
+FROM node:14.16.0
 WORKDIR /usr/src/backend
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install
 COPY . .
 EXPOSE 3000
 CMD [ "node", "--experimental-json-modules", "app.js"]

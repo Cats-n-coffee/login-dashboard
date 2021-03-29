@@ -141,6 +141,7 @@ export const refreshTokenPost = async (req, res) => {
 	const isValid = await verifyRefreshToken(refresh_token).catch((e) => false);
 	if (isValid) {
 		const { refresh_token, ...user } = userRecord;
+		delete user.password;
 		const token = generateToken(userRecord.email);
 		res
 			.cookie("jwt", token, { path: "/api", maxAge: 1800, httpOnly: true })

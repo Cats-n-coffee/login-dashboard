@@ -8,7 +8,7 @@ import routes from "./routes/appRoutes.js";
 dotenv.config();
 
 const app = express();
-const PORT = 8080;
+const PORT = 3000;
 
 const corsConf = {
 	credentials: true,

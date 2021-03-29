@@ -34,11 +34,12 @@ export const loginPost = (req, res) => {
 					.status(200)
 					.header({
 						"Set-cookie": [
-							"jwt=" + token + "; maxAge=1801; httpOnly=true;",
+							"jwt=" + token + "; maxAge=1801; httpOnly=true; SameSite=None; Secure=true;",
 							"refresh_token=" +
 								refreshToken +
-								"; maxAge=604800; httpOnly=true;",
+								"; maxAge=604800; httpOnly=true; SameSite=None; Secure=true;",
 						],
+						"Access-Control-Allow-Credentials": true,
 					})
 					.json({ ...user, token, refreshToken });
 			} else {
@@ -72,9 +73,10 @@ export const signUpPost = async (req, res) => {
 			.status(200)
 			.header({
 				"Set-cookie": [
-					"jwt=" + token + "; maxAge=1801; httpOnly=true;",
-					"refresh_token=" + refreshToken + "; maxAge=604800; httpOnly=true;",
+					"jwt=" + token + "; maxAge=1801; httpOnly=true; SameSite=None; Secure=true;",
+					"refresh_token=" + refreshToken + "; maxAge=604800; httpOnly=true; SameSite=None; Secure=true;",
 				],
+				"Access-Control-Allow-Credentials": true,
 			})
 			.json({ user, token, refreshToken });
 		console.log("newUser", onlyUserData);
@@ -144,7 +146,7 @@ export const refreshTokenPost = async (req, res) => {
 		delete user.password;
 		const token = generateToken(userRecord.email);
 		res
-			.cookie("jwt", token, { path: "/api", maxAge: 1800, httpOnly: true })
+			.cookie("jwt", token, { path: "/api", maxAge: 1800, httpOnly: true, sameSite: 'none', secure: true })
 			.json({ token, refresh_token, user });
 	} else {
 		return res.status(403).json({

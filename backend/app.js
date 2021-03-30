@@ -20,6 +20,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api", routes);
+// for handling 404 errors
+app.all("*", (req, res, next) => {
+	const method = req.method;
+	const msg = `Can't ${method} ${req.path}`;
+	res.status(404).json({ msg });
+});
 
 app.listen(PORT, () => {
 	console.log("my app listening");

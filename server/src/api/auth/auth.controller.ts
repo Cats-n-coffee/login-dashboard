@@ -8,7 +8,9 @@ export class AuthController {
   login(@Body() loginDto: any) {}
 
   @Post('register')
-  register(@Body() registerDto: any) {}
+  register(@Body() registerDto: any) {
+    return this.authService.registerUser(registerDto);
+  }
 
   @Get()
   refresh(@Headers('refresh') token: string) {

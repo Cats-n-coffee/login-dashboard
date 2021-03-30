@@ -1,4 +1,4 @@
-db:
+t adb:
   pg:
     host: <Your posgreSQL database host>
     port: <Your posgreSQL database port>

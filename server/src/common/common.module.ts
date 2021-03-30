@@ -4,6 +4,6 @@ import { CryptoService } from './crypto.service';
 @Global()
 @Module({
   providers: [CryptoService],
-  exports: [CryptoService]
+  exports: [CryptoService],
 })
 export class CommonModule {}

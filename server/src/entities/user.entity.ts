@@ -9,20 +9,20 @@ import {
 
 @Entity('users')
 @Index(['email'], { unique: true })
-export class UserEntity {
+export class User {
   @PrimaryGeneratedColumn()
   user_id: number;
 
-  @Column()
+  @Column({ nullable: true })
   username: string;
 
-  @Column()
+  @Column('text')
   email: string;
 
   @Column()
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   token: string; // the refresh token
 
   @CreateDateColumn()

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CryptoService } from 'src/common/crypto.service';
 import { User } from 'src/entities/user.entity';
@@ -19,7 +19,14 @@ export class AuthService {
     user.email = registerDto.email;
     user.password = this.cryptoService.hashPwd(registerDto.password);
     if (registerDto.username) user.username = registerDto.username;
-    return this.userRepo.save(user);
+    return this.userRepo.save(user).catch((e) => {
+      if (+e?.code === 23505) {
+        const msg = `Email: ${registerDto.email} already exists.`;
+        throw new BadRequestException(msg);
+      } else {
+        throw Error(e);
+      }
+    });
   }
 
   loginUser(loginDto: LoginDto) {}

@@ -9,6 +9,9 @@ export class LogMiddleware implements NestMiddleware {
     if (['POST', 'PUT', 'PATCH'].includes(method)) {
       console.log(`data:\n` + JSON.stringify(req.body));
     }
+    if (req.cookies) {
+      console.log(`cookies:\n` + JSON.stringify(req.cookies));
+    }
     console.log(`\n`);
     next();
   }

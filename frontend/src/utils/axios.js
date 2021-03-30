@@ -1,5 +1,6 @@
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
 axios.interceptors.response.use(
@@ -7,6 +8,9 @@ axios.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-axios.interceptors.request.use((conf) => conf);
+axios.interceptors.request.use((conf) => ({
+  ...conf,
+  withCredentials: true,
+}));
 
 export default axios;

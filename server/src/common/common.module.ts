@@ -1,9 +1,8 @@
 import { Global, Module } from '@nestjs/common';
-import { CryptoService } from './crypto.service';
+import { CryptoModule } from './crypto/crypto.module';
 
-@Global()
 @Module({
-  providers: [CryptoService],
-  exports: [CryptoService],
+  imports: [CryptoModule],
+  exports: [CryptoModule],
 })
 export class CommonModule {}

@@ -9,7 +9,7 @@ export class LogMiddleware implements NestMiddleware {
     if (['POST', 'PUT', 'PATCH'].includes(method)) {
       console.log(`data:\n` + JSON.stringify(req.body));
     }
-    console.log(`\n`)
+    console.log(`\n`);
     next();
   }
 }

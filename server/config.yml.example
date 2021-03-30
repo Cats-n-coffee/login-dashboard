@@ -1,0 +1,17 @@
+db:
+  pg:
+    uri: <your mongodb provider url>
+app:
+  port: 3000
+  cors:
+    # allowed origins for API server
+    origin: https://www.example.com/, https://example.com/
+  auth:
+    token:
+      name: jwt
+      secret: secret
+      expiresIn: 1800
+    refresh:
+      name: refresh
+      secret: secret
+      expiresIn: 604800

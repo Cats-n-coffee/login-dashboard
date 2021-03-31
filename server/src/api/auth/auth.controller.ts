@@ -29,25 +29,28 @@ export class AuthController {
   @HttpCode(200)
   @Post('login')
   @UseGuards(LocalAuthGuard)
-  login(@Req() req: Request, @Res() res: Response) {
+  login(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const user = req.user as IAutheUser;
     return this.handleAuthedRequest(res, user);
   }
 
   @Post('register')
-  async register(@Body() registerDto: RegisterDto, @Res() res: Response) {
+  async register(
+    @Body() registerDto: RegisterDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const user = await this.authService.registerUser(registerDto);
     return this.handleAuthedRequest(res, user);
   }
 
   @Get()
-  refresh(@Headers('refresh') token: string) {
+  refresh() {
     return { ye: 'yeah' };
   }
 
   @Get('/logout')
   @UseGuards(JwtAuthGuard)
-  async logout(@Req() req: Request, @Res() res: Response) {
+  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const user = req.user as IAutheUser;
     await this.authService.logoutUser(user);
     return this.handleAuthedRequest(res, user, true);

@@ -65,7 +65,7 @@ export class UserService {
    * @param{string} uId the user id
    * @param{Partial<IUserRecord>} update  the update data
    */
-  updateUser(uId: string, update: Partial<IUserRecord>) {
+  updateUser(uId: number, update: Partial<IUserRecord>) {
     return this.userRepo.update(uId, update);
   }
 }

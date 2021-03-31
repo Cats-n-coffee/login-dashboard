@@ -27,11 +27,11 @@ export class AuthController {
   ) {}
 
   @HttpCode(200)
-  @UseGuards(LocalAuthGuard)
   @Post('login')
+  @UseGuards(LocalAuthGuard)
   login(@Req() req: Request, @Res() res: Response) {
-    const user = req.user;
-    return this.handleAuthedRequest(res, user as IAutheUser);
+    const user = req.user as IAutheUser;
+    return this.handleAuthedRequest(res, user);
   }
 
   @Post('register')
@@ -47,14 +47,25 @@ export class AuthController {
 
   @Get('/logout')
   @UseGuards(JwtAuthGuard)
-  logout() {
-    return null;
+  async logout(@Req() req: Request, @Res() res: Response) {
+    const user = req.user as IAutheUser;
+    await this.authService.logoutUser(user);
+    return this.handleAuthedRequest(res, user, true);
   }
 
-  private handleAuthedRequest(res: Response, user: IAutheUser) {
-    const { access, token } = this.helperService.getAuthCookies(user);
+  private handleAuthedRequest(
+    res: Response,
+    user: IAutheUser,
+    doClean?: boolean,
+  ) {
+    const { access, token } = doClean
+      ? this.helperService.getCleanedAuthCookies(user)
+      : this.helperService.getAuthCookies(user);
+
     res.setHeader('Set-Cookie', access.value);
     res.cookie(token.name, token.value);
-    res.json(user);
+
+    const resData = doClean ? null : user;
+    res.json(resData);
   }
 }

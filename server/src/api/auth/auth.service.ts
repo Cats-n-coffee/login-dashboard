@@ -17,4 +17,8 @@ export class AuthService {
     const user = await this.userService.createUser(registerDto);
     return this.helperService.signUser(user);
   }
+
+  async logoutUser(user: IAutheUser) {
+    await this.userService.updateUser(user.id, { token: null });
+  }
 }

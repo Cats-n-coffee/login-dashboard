@@ -6,7 +6,6 @@ export interface IUser {
   updated_at: number;
 }
 export interface IUserRecord extends IUser {
-  password: string;
   token?: string;
 }
 

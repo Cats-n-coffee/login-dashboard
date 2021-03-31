@@ -1,12 +1,14 @@
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
+import { UserService } from './user.service';
+import { IUser } from './user.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(confService: ConfigService) {
+  constructor(private userService: UserService, confService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (req: Request) => {
@@ -22,5 +24,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any): Promise<any> {}
+  async validate({ sub }: any): Promise<IUser> {
+    const user = await this.userService.findUser({ user_id: sub });
+    if (user) return user;
+    throw new UnauthorizedException('Wrong credentials provided');
+  }
 }

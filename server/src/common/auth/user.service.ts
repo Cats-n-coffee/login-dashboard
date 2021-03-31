@@ -45,14 +45,18 @@ export class UserService {
    * Find an user with either by email or token
    * @returns{IUserRecord|null} return user record or null record
    */
-  findUser(filter: any): Promise<IUserRecord | null> {
-    return this.userRepo.findOne(filter).then((user) => {
-      if (user) {
-        const { user_id, ...data } = user;
-        return { id: user_id, ...data };
-      }
+  async findUser(filter: any): Promise<IUserRecord | null> {
+    const userRecord = await this.userRepo.findOne(filter);
+    if (
+      !userRecord ||
+      (filter.password &&
+        !this.cryptoService.comparePwd(filter.password, userRecord.password))
+    ) {
       return null;
-    });
+    }
+    delete userRecord.password;
+    const { user_id, ...userData } = userRecord;
+    return { id: user_id, ...userData };
   }
 
   /**

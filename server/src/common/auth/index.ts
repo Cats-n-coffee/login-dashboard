@@ -11,3 +11,6 @@ export * from './guards/jwt.guard';
 
 // export helper service
 export * from './helper.service';
+
+// export user service
+export * from './user.service';

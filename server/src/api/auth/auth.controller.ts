@@ -31,17 +31,13 @@ export class AuthController {
   @Post('login')
   login(@Req() req: Request, @Res() res: Response) {
     const user = req.user;
-    const { access, token } = this.helperService.getAuthCookies(
-      user as IAutheUser,
-    );
-    res.setHeader('Set-Cookie', access.value);
-    res.cookie(token.name, token.value);
-    res.json(user);
+    return this.handleAuthedRequest(res, user as IAutheUser);
   }
 
   @Post('register')
-  register(@Body() registerDto: RegisterDto) {
-    return this.authService.registerUser(registerDto);
+  async register(@Body() registerDto: RegisterDto, @Res() res: Response) {
+    const user = await this.authService.registerUser(registerDto);
+    return this.handleAuthedRequest(res, user);
   }
 
   @Get()
@@ -53,5 +49,12 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   logout() {
     return null;
+  }
+
+  private handleAuthedRequest(res: Response, user: IAutheUser) {
+    const { access, token } = this.helperService.getAuthCookies(user);
+    res.setHeader('Set-Cookie', access.value);
+    res.cookie(token.name, token.value);
+    res.json(user);
   }
 }

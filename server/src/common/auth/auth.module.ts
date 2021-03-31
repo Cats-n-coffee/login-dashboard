@@ -25,6 +25,6 @@ import { CryptoModule } from './crypto/crypto.module';
     }),
   ],
   providers: [UserService, LocalStrategy, JwtStrategy, HelperService],
-  exports: [HelperService],
+  exports: [HelperService, UserService],
 })
 export class AuthModule {}

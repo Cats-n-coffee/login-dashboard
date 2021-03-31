@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { HelperService } from 'src/common/auth/helper.service';
-import { User } from 'src/entities/user.entity';
-import { Repository } from 'typeorm';
+import {
+  HelperService,
+  IAutheUser,
+  RegisterDto,
+  UserService,
+} from 'src/common/auth';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepo: Repository<User>,
+    private readonly userService: UserService,
+    private readonly helperService: HelperService,
   ) {}
 
-  registerUser(loginDto: any) {}
+  async registerUser(registerDto: RegisterDto): Promise<IAutheUser> {
+    const user = await this.userService.createUser(registerDto);
+    return this.helperService.signUser(user);
+  }
 }

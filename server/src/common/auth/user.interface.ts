@@ -8,7 +8,7 @@ export interface IUser {
 export interface IUserRecord extends IUser {
   token?: string;
 }
-
-export interface IAuthedUser extends IUser {
+export interface IAutheUser extends IUser {
   token: string;
+  access: string;
 }

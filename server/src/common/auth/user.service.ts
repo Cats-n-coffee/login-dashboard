@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
-import { CryptoService } from '../crypto/crypto.service';
+import { CryptoService } from './crypto/crypto.service';
 import { RegisterDto } from './dto/register.dto';
 import { IUserRecord, IUser } from './user.interface';
 
@@ -46,11 +46,12 @@ export class UserService {
    * @returns{IUserRecord|null} return user record or null record
    */
   async findUser(filter: any): Promise<IUserRecord | null> {
-    const userRecord = await this.userRepo.findOne(filter);
+    const { password, ...filterData } = filter;
+    const userRecord = await this.userRepo.findOne(filterData);
     if (
       !userRecord ||
-      (filter.password &&
-        !this.cryptoService.comparePwd(filter.password, userRecord.password))
+      (password &&
+        !this.cryptoService.comparePwd(password, userRecord.password))
     ) {
       return null;
     }

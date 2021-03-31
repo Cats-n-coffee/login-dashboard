@@ -4,3 +4,7 @@ export * from './dto/register.dto';
 
 // export the interface
 export * from './user.interface';
+
+// export guards
+export * from './guards/local.guard';
+export * from './guards/jwt.guard';

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -10,6 +10,7 @@ import { UserService } from './user.service';
 import { HelperService } from './helper.service';
 import { CryptoModule } from './crypto/crypto.module';
 
+@Global()
 @Module({
   imports: [
     CryptoModule,

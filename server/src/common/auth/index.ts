@@ -8,3 +8,6 @@ export * from './user.interface';
 // export guards
 export * from './guards/local.guard';
 export * from './guards/jwt.guard';
+
+// export helper service
+export * from './helper.service';

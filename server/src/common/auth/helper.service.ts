@@ -66,11 +66,13 @@ export class HelperService {
     doClean?: boolean,
   ): Record<string, string> {
     let { name, expiresIn } = this.confService.get(`app.auth.${type}`);
+    let cookieValue = value;
     if (doClean) {
       expiresIn = 0;
+      cookieValue = '';
     }
     const isProd = process.env.NODE_ENV === 'production';
-    let cookie = `${name}=${value};HttpOnly=true;Path=/;Max-Age=${expiresIn};`;
+    let cookie = `${name}=${cookieValue};HttpOnly=true;Path=/;Max-Age=${expiresIn};`;
     if (isProd) {
       cookie += 'Secure=true;SameSite=None';
     }

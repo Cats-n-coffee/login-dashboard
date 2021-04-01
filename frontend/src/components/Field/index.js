@@ -20,7 +20,7 @@ export default function FormField({ type, label, ...props }) {
         input,
         textarea {
           width: 100%;
-          padding-left: 1.25rem;
+          padding-left: 1rem;
           line-height: 2.625rem;
           font-size: 0.9375rem;
           color: var(--color-text);
@@ -44,14 +44,13 @@ export default function FormField({ type, label, ...props }) {
       <div
         css={`
           display: flex;
+          align-items: center;
         `}
       >
         <label
           css={`
-            display: flex;
-            align-items: center;
-            width: 100%;
-            margin-bottom: 0.5rem;
+            color: var(--color-text);
+            letter-spacing: 0.03rem;
           `}
         >
           {label}:

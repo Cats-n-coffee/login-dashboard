@@ -3,7 +3,7 @@ import styled, { css } from "styled-components/macro";
 import * as React from "react";
 import AuthForm from "components/AuthForm";
 import { useAuth } from "context/auth.context";
-import { FormWrapper } from "../styles/styles";
+import { FormWrapper, ChangeLoginToRegister } from "../styles/styles";
 
 export default function LoginScreen() {
   React.useEffect(() => {
@@ -22,6 +22,14 @@ export default function LoginScreen() {
     >
       <h1>Login</h1>
       <AuthForm type="login" onSubmit={handleSubmit} />
+      <div
+        css={`
+          ${ChangeLoginToRegister}
+        `}
+      >
+        Don't have an account?
+        <a href="/register">Sign Up</a>
+      </div>
     </div>
   );
 }

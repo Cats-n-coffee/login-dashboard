@@ -38,4 +38,5 @@ export const Button = styled("button").attrs(() => ({ className: "btn" }))`
   padding: 0.8em;
   font-size: 1.2em;
   letter-spacing: 0.1rem;
+  margin: 1em 0 0 0;
 `;

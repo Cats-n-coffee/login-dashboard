@@ -12,10 +12,21 @@ export const FormWrapper = css`
   width: 100%;
   max-width: 400px;
   height: auto;
-  max-height: 70vh;
+  max-height: 77vh;
 
   h1 {
     color: var(--color-titles);
     padding: 0 0 2rem 0;
+  }
+`;
+
+export const ChangeLoginToRegister = css`
+  color: var(--color-titles);
+  padding: 2em 0 0 0;
+  text-align: center;
+  font-size: 0.9rem;
+
+  a {
+    text-decoration: underline;
   }
 `;

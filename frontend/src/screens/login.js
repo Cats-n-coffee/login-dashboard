@@ -1,9 +1,6 @@
 import * as React from "react";
 import AuthForm from "components/AuthForm";
 import { useAuth } from "context/auth.context";
-import { Card } from "../styles/styles";
-import styled, { css } from "styled-components/macro";
-import ToggleTheme from "../components/ThemeToggle";
 
 export default function LoginScreen() {
   React.useEffect(() => {
@@ -15,12 +12,7 @@ export default function LoginScreen() {
     login(values);
   };
   return (
-    <div
-      css={`
-        ${Card}
-      `}
-    >
-      <ToggleTheme />
+    <div style={{ width: "100%" }}>
       <h1>Login</h1>
       <AuthForm type="login" onSubmit={handleSubmit} />
     </div>

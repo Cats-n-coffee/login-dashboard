@@ -29,15 +29,9 @@ export const Content = styled.div`
 `;
 
 export const Button = styled("button").attrs(() => ({ className: "btn" }))`
-  /* height: 3rem; */
+  height: 3rem;
   text-align: center;
-  /* min-width: 4rem; */
-  border-radius: 6px;
-  text-transform: uppercase;
-  font-size: 1.2rem;
-  letter-spacing: 0.1rem;
-  padding: 0.8em;
-  width: 100%;
-  color: var(--color-boxes);
-  background: var(--color-text);
+  min-width: 4rem;
+  border-radius: 0.375rem;
+  text-transform: capitalize;
 `;

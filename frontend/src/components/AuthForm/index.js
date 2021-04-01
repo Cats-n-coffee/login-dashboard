@@ -15,17 +15,13 @@ function AuthForm({ onSubmit, type }) {
       onSubmit={onSubmit}
     >
       {({ isSubmitting, ...props }) => (
-        <Form
-          css={`
-            width: 100%;
-          `}
-        >
+        <Form>
           {type === "login" ? null : (
             <Field
-              label={"Username"}
+              label={"User Name"}
               name="username"
               type="text"
-              placeholder="Username"
+              placeholder="user name"
             />
           )}
           <Field label={"Email"} name="email" type="text" placeholder="email" />

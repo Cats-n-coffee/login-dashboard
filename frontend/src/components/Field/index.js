@@ -13,20 +13,16 @@ export default function FormField({ type, label, ...props }) {
     <div
       css={`
         margin-bottom: 1rem;
-        display: flex;
-        flex-direction: column;
-        border-bottom: 1px solid var(--c11);
         input,
         textarea {
           width: 100%;
           padding-left: 1.25rem;
-          /* height: 2.625rem; */
+          height: 2.625rem;
           line-height: 2.625rem;
           font-size: 0.9375rem;
-          color: var(--color-input);
+          color: var(--c10);
           opacity: 0.5;
-          background: none;
-
+          border-bottom: 1px solid var(--c10);
           &:focus {
             opacity: 1;
           }
@@ -41,24 +37,21 @@ export default function FormField({ type, label, ...props }) {
         }
       `}
     >
-      <div
-        className="user-input"
+      <label
         css={`
           display: flex;
+          align-items: center;
+          width: 100%;
+          margin-bottom: 0.5rem;
+          .label {
+            margin-right: 0.5rem;
+            min-width: 5.35rem;
+          }
         `}
       >
-        <label
-          css={`
-            display: flex;
-            align-items: center;
-            color: var(--color-text);
-            margin-right: 0.5rem;
-          `}
-        >
-          {label}:
-        </label>
+        <span className="label">{label}:</span>
         <Field {...fieldProps} className="field" />
-      </div>
+      </label>
       <Error className="error-msg" as="small">
         <ErrorMessage name={props.name} />
       </Error>

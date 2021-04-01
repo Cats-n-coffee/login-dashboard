@@ -25,8 +25,5 @@ export default function ThemeToggle() {
     document.body.dataset.theme = theme;
   }, [theme]);
 
-  React.useEffect(() => {}, []);
-  React.useEffect(() => {});
-
   return <button onClick={toggleTheme}>Switch theme</button>;
 }

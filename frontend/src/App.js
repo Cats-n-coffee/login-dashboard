@@ -1,5 +1,5 @@
 import * as React from "react";
-import AuthedApp from "./authed.app";
+import AuthedApp from "./app.authed";
 import UnAuthApp from "./app.unAuthed";
 import { useAuth } from "context/auth.context";
 

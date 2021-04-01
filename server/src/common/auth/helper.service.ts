@@ -42,7 +42,7 @@ export class HelperService {
    * Get authentication cookie(access and refresh token cookie) for an authenticated user
    * @params {IAuthedUser} authedUser the user data with authentication information
    * @returns {token:Record<key, string>, access:Record<key, string>} the authentication cookie information
-   * with expiration time as zeo
+   * with expiration time as zero
    */
   getCleanedAuthCookies(authedUser: IAutheUser) {
     const { access, token } = authedUser;

@@ -1,6 +1,7 @@
 import * as React from "react";
 import AuthForm from "components/AuthForm";
 import { useAuth } from "context/auth.context";
+import { FormWrapper } from "styles/styles";
 
 export default function LoginScreen() {
   React.useEffect(() => {
@@ -12,7 +13,11 @@ export default function LoginScreen() {
     login(values);
   };
   return (
-    <div style={{ width: "100%" }}>
+    <div
+      css={`
+        ${FormWrapper}
+      `}
+    >
       <h1>Login</h1>
       <AuthForm type="login" onSubmit={handleSubmit} />
     </div>

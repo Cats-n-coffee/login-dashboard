@@ -1,9 +1,10 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import * as cookieParser from 'cookie-parser';
+import cors from 'cors';
 import { AppModule } from './app.module';
 import { ErrorFilter } from './common/error.filter';
 import { ResponseInterceptor } from './common/response.interceptor';
-import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,6 +13,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
 
   app.use(cookieParser());
+  app.use(cors({ origin: true, credentials: true }));
 
   const conf = app.get(ConfigService);
   const port = conf.get('app.port');

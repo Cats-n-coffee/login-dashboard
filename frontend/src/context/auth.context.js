@@ -1,5 +1,6 @@
 // eslint-disable-next-line
 import styled from "styled-components/macro";
+import { Redirect } from "react-router-dom";
 import { useQuery } from "react-query";
 import * as React from "react";
 import * as auth from "utils/auth";
@@ -14,9 +15,8 @@ export function AuthProvider(props) {
   });
   const [user, setUser] = React.useState(data);
   React.useEffect(() => {
-    if (status === "success" && data) {
-      setUser(data);
-    }
+    if (status === "success" && data) setUser(data);
+    if (status === "error") setUser(null);
   }, [status, data]);
   const register = React.useCallback(
     (form) => {
@@ -49,9 +49,6 @@ export function AuthProvider(props) {
         <p>Loading...</p>
       </div>
     );
-  }
-  if (status === "error") {
-    return <p>{JSON.stringify(error)}</p>;
   }
   const value = { user, register, login };
   return <AuthContext.Provider value={value} {...props} />;

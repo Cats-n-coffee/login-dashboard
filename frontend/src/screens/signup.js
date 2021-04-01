@@ -1,3 +1,5 @@
+// eslint-disable-next-line
+import styled from "styled-components/macro";
 import * as React from "react";
 import AuthForm from "components/AuthForm";
 import { useAuth } from "context/auth.context";

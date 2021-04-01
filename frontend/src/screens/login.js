@@ -1,7 +1,9 @@
+// eslint-disable-next-line
+import styled, { css } from "styled-components/macro";
 import * as React from "react";
 import AuthForm from "components/AuthForm";
 import { useAuth } from "context/auth.context";
-import { FormWrapper } from "styles/styles";
+import { FormWrapper } from "../styles/styles";
 
 export default function LoginScreen() {
   React.useEffect(() => {

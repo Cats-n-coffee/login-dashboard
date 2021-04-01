@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { CryptoService } from './crypto/crypto.service';
 import { IAutheUser, IUser } from './user.interface';
+import { UserService } from './user.service';
 
 type TokenType = 'token' | 'refresh';
 @Injectable()
@@ -11,6 +12,7 @@ export class HelperService {
     private readonly cryptoService: CryptoService,
     private readonly jwtService: JwtService,
     private readonly confService: ConfigService,
+    private readonly userService: UserService,
   ) {}
 
   /**
@@ -18,10 +20,11 @@ export class HelperService {
    * @params {IUser}
    * @returns {IAutheUser} user data with authentication information(access token and refresh token)
    */
-  signUser(user: IUser): IAutheUser {
+  async signUser(user: IUser): Promise<IAutheUser> {
     const payload = { ...user, sub: user.id };
     const accessToken = this.jwtService.sign(payload);
     const refreshToken = this.cryptoService.signRefreshToken(payload);
+    await this.userService.updateUser(payload.sub, { token: refreshToken });
     return { ...user, token: refreshToken, access: accessToken };
   }
 

@@ -66,8 +66,7 @@ export class AuthController {
       ? this.helperService.getCleanedAuthCookies(user)
       : this.helperService.getAuthCookies(user);
 
-    res.setHeader('Set-Cookie', access.value);
-    res.cookie(token.name, token.value);
+    res.setHeader('Set-Cookie', [access.value, token.value]);
 
     const resData = doClean ? null : user;
     res.json(resData);

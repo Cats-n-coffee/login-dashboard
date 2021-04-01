@@ -8,19 +8,19 @@ const conf = {
 
 export function login({ email, password }) {
   console.log("login", { email, password });
-  return axios.post("/login", { email, password }, { withCredentials: true });
+  return axios.post("/auth/login", { email, password });
 }
 
 export function register({ username, email, password }) {
-  return axios.post("/signup", { username, email, password });
+  return axios.post("/auth/register", { username, email, password });
 }
 
 export function logout() {
-  return axios.get("/logout", { headers: {} });
+  return axios.get("/auth/logout", { headers: {} });
 }
 
 export function getUser() {
   const refreshToken = Cookies.get(conf.refresh);
   if (!refreshToken) return Promise.resolve(null);
-  return axios.post("/refreshtoken", { refresh_token: refreshToken });
+  return axios.get("/auth/token");
 }

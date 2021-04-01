@@ -1,0 +1,21 @@
+t adb:
+  pg:
+    host: <Your posgreSQL database host>
+    port: <Your posgreSQL database port>
+    username: <Your posgreSQL database username>
+    password: <Your posgreSQL database password>
+    database: <Your posgreSQL database name>
+app:
+  port: 3000
+  cors:
+    # allowed origins for API server
+    origin: https://www.example.com/, https://example.com/
+  auth:
+    token:
+      name: <Your JWT token name>
+      secret: <Your JWT token secret>
+      expiresIn: <Your JWT token expires time>
+    refresh:
+      name: <Your refresh token name>
+      secret: <Your refresh token secret>
+      expiresIn: <Your refresh token expires time>

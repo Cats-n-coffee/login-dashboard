@@ -12,24 +12,44 @@ const GlobalStyle = createGlobalStyle`
   html {
     height: 100vh;
   }
+  
+  body[data-theme="light"] {
+    --color-text: var(--c00);
+    --color-boxes: var(--white);
+    --color-input: var(--c20);
+    --background-dash: var(--c10);
+    --background-auth: var(--g01);
+  }
+  body[data-theme="dark"] {
+    --color-text: var(--c02);
+    --color-boxes: var(--c20);
+    --color-input: var(--c10);
+    --background-dash: var(--c21);
+    --background-auth: var(--g02);
+  }
   body {
     min-height: 100vh;
     font-weight:var(--font-normal);
     overflow-y: scroll;
     min-width: 280px;
-    font-family: "Publuic Sans", Roboto,Helvetica Neue,sans-serif;
+    font-family: var(--font-family);
     font-weight: var(--font-normal);
-    background-color: #edf3f8;
+    background: var(--background-auth);
   }
   :root {
     --c00: ${colors.c00};
     --c01: ${colors.c01};
+    --c02: ${colors.c02};
     --c10: ${colors.c10};
-    --c11: ${colors.c11};
-    --c12:${colors.c12};
+    --c11:${colors.c11};
     --c20:${colors.c20};
+    --c21:${colors.c21};
+    --g01: linear-gradient(to bottom, ${colors.cg01}, ${colors.cg02});
+    --g02: linear-gradient(to bottom, ${colors.cg03}, ${colors.cg04});
+    --white: ${colors.white};
     --font-normal: 400;
     --font-bold: 700;
+    --font-family: "Publuic Sans", Roboto,Helvetica Neue,sans-serif;
   }
   a,
   button,
@@ -54,7 +74,7 @@ const GlobalStyle = createGlobalStyle`
   }
   h1,h2,h3,h4,h5,h6, strong {
     font-weight:var(--font-bolder);
-    font-family:'DM Serif Display',  Roboto,Helvetica Neue,sans-serif;
+    font-family: var(--font-family);
   }
   img {
     max-width: 100%;

@@ -28,7 +28,7 @@ export class AuthService {
 
   async renewToken(cookies: any): Promise<IAutheUser> {
     const { name } = this.confService.get('app.auth.refresh');
-    const token = cookies[name];
+    const token = cookies[name].split(';')[0].split('=')[1];
     if (!token) {
       throw new UnauthorizedException('Wrong credentials');
     }

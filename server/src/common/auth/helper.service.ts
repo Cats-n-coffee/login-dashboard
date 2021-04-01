@@ -23,7 +23,7 @@ export class HelperService {
   async signUser(user: IUser): Promise<IAutheUser> {
     const payload = { ...user, sub: user.id };
     const accessToken = this.jwtService.sign(payload);
-    const refreshToken = this.cryptoService.signRefreshToken(payload);
+    const refreshToken = this.cryptoService.signRefreshToken({ sub: user.id });
     await this.userService.updateUser(payload.sub, { token: refreshToken });
     return { ...user, token: refreshToken, access: accessToken };
   }

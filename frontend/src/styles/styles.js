@@ -28,5 +28,6 @@ export const ChangeLoginToRegister = css`
 
   a {
     text-decoration: underline;
+    white-space: pre;
   }
 `;

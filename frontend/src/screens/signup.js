@@ -4,6 +4,7 @@ import * as React from "react";
 import AuthForm from "components/AuthForm";
 import { useAuth } from "context/auth.context";
 import { FormWrapper, ChangeLoginToRegister } from "styles/styles";
+import { Link } from "react-router-dom";
 
 export default function SignUpScreen() {
   React.useEffect(() => {
@@ -27,8 +28,8 @@ export default function SignUpScreen() {
           ${ChangeLoginToRegister}
         `}
       >
-        Already have an account?
-        <a href="/login">Login</a>
+        Already have an account?&nbsp;
+        <Link to="/login">Login</Link>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 // eslint-disable-next-line
 import styled from "styled-components/macro";
-import { Redirect } from "react-router-dom";
 import { useQuery } from "react-query";
 import * as React from "react";
 import * as auth from "utils/auth";
@@ -52,7 +51,7 @@ export function AuthProvider(props) {
   const logout = React.useCallback(() => {
     auth.logout().then(() => window.localStorage.removeItem(user));
     setUser(null);
-  }, []);
+  }, [setUser, user]);
 
   if (["loading", "idle"].includes(status)) {
     return (

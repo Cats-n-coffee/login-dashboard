@@ -7,7 +7,6 @@ const conf = {
 };
 
 export function login({ email, password }) {
-  console.log("login", { email, password });
   return axios.post("/auth/login", { email, password });
 }
 

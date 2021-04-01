@@ -11,7 +11,10 @@ export function AuthProvider(props) {
   const { data, status } = useQuery({
     queryKey: ["user"],
     queryFn: () => {
-      auth.getUser().catch((e) => window.localStorage.removeItem("user"));
+      auth.getUser().catch((e) => {
+        window.localStorage.removeItem("user");
+        setUser(null);
+      });
     },
   });
   const [user, setUser] = React.useState(() => {

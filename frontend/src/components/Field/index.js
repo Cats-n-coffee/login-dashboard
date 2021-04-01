@@ -13,16 +13,17 @@ export default function FormField({ type, label, ...props }) {
     <div
       css={`
         margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
         border-bottom: 1px solid var(--c30);
 
         input,
         textarea {
           width: 100%;
           padding-left: 1.25rem;
-          height: 2.625rem;
           line-height: 2.625rem;
           font-size: 0.9375rem;
-          color: var(--c10);
+          color: var(--color-text);
           opacity: 0.5;
           background: none;
 
@@ -40,7 +41,11 @@ export default function FormField({ type, label, ...props }) {
         }
       `}
     >
-      <div>
+      <div
+        css={`
+          display: flex;
+        `}
+      >
         <label
           css={`
             display: flex;

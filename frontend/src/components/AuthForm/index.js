@@ -22,10 +22,10 @@ function AuthForm({ onSubmit, type }) {
         >
           {type === "login" ? null : (
             <Field
-              label={"User Name"}
+              label={"Username"}
               name="username"
               type="text"
-              placeholder="user name"
+              placeholder="username"
             />
           )}
           <Field label={"Email"} name="email" type="text" placeholder="email" />

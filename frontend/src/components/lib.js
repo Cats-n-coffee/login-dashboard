@@ -29,13 +29,13 @@ export const Content = styled.div`
 `;
 
 export const Button = styled("button").attrs(() => ({ className: "btn" }))`
-  /* height: 3rem; */
   text-align: center;
-  /* min-width: 4rem; */
   border-radius: 6px;
   text-transform: uppercase;
   background: var(--color-titles);
   color: var(--color-boxes);
   width: 100%;
   padding: 0.8em;
+  font-size: 1.2em;
+  letter-spacing: 0.1rem;
 `;

@@ -17,12 +17,14 @@ const GlobalStyle = createGlobalStyle`
     --color-text: var(--c21);
     --color-boxes: var(--c11);
     --color-background: var(--c10);
+    --color-background-auth: var(--g01);
   }
   body[data-theme="dark"] {
     --color-titles: var(--c01);
     --color-text: var(--c10);
     --color-boxes: var(--c20);
     --color-background: var(--c21);
+  
   }
   body {
     min-height: 100vh;
@@ -31,7 +33,7 @@ const GlobalStyle = createGlobalStyle`
     min-width: 280px;
     font-family: "Publuic Sans", Roboto,Helvetica Neue,sans-serif;
     font-weight: var(--font-normal);
-    background-color: var(--color-background);
+    background: var(--g01);
   }
   :root {
     --c00: ${colors.c00};
@@ -41,8 +43,6 @@ const GlobalStyle = createGlobalStyle`
     --c20:${colors.c20};
     --c21:${colors.c21};
     --c30:${colors.c30};
-    --cg01:${colors.cg01};
-    --cg02:${colors.cg02};
     --g01: linear-gradient(to bottom, ${colors.cg01}, ${colors.cg02});
     --font-normal: 400;
     --font-bold: 700;

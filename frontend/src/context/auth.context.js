@@ -10,28 +10,17 @@ AuthContext.displayName = "AuthContext";
 export function AuthProvider(props) {
   const { data, status } = useQuery({
     queryKey: ["user"],
-    queryFn: () => {
-      auth.getUser().catch((e) => {
-        window.localStorage.removeItem("user");
-        setUser(null);
-      });
-    },
+    queryFn: auth.getUser,
   });
-  const [user, setUser] = React.useState(() => {
-    try {
-      return JSON.parse(window.localStorage.getItem("user"));
-    } catch (e) {
-      return data;
-    }
-  });
+  const [user, setUser] = React.useState(auth.getCachedUser);
   React.useEffect(() => {
     if (status === "success" && data) setUser(data);
   }, [status, data]);
 
   // when data changes, we store the user data in localstorage
   React.useEffect(() => {
-    window.localStorage.setItem("user", JSON.stringify(user));
-    return () => window.localStorage.removeItem("user");
+    if (user) auth.storeUser(user);
+    return auth.cleanUser;
   }, [user]);
 
   // user register function
@@ -54,9 +43,8 @@ export function AuthProvider(props) {
 
   // user logout function
   const logout = React.useCallback(() => {
-    auth.logout().then(() => window.localStorage.removeItem(user));
-    setUser(null);
-  }, [setUser, user]);
+    auth.logout().then(() => setUser(null));
+  }, [setUser]);
 
   if (["loading", "idle"].includes(status)) {
     return (

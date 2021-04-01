@@ -27,8 +27,8 @@ export class AuthController {
   ) {}
 
   @HttpCode(200)
-  @Post('login')
   @UseGuards(LocalAuthGuard)
+  @Post('login')
   login(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const user = req.user as IAutheUser;
     return this.handleAuthedRequest(res, user);
@@ -52,8 +52,8 @@ export class AuthController {
     if (user) return this.handleAuthedRequest(res, user);
   }
 
-  @Get('/logout')
   @UseGuards(JwtAuthGuard)
+  @Get('/logout')
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const user = req.user as IAutheUser;
     await this.authService.logoutUser(user);

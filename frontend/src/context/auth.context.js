@@ -9,15 +9,28 @@ const AuthContext = React.createContext();
 AuthContext.displayName = "AuthContext";
 
 export function AuthProvider(props) {
-  const { data, status, error } = useQuery({
+  const { data, status } = useQuery({
     queryKey: ["user"],
     queryFn: auth.getUser,
   });
-  const [user, setUser] = React.useState(data);
+  const [user, setUser] = React.useState(() => {
+    try {
+      return JSON.parse(window.localStorage.getItem("user"));
+    } catch (e) {
+      return data;
+    }
+  });
   React.useEffect(() => {
     if (status === "success" && data) setUser(data);
-    if (status === "error") setUser(null);
   }, [status, data]);
+
+  // when data changes, we store the user data in localstorage
+  React.useEffect(() => {
+    window.localStorage.setItem("user", JSON.stringify(user));
+    return () => window.localStorage.removeItem("user");
+  }, [user]);
+
+  // user register function
   const register = React.useCallback(
     (form) => {
       auth.register(form).then((data) => {
@@ -26,12 +39,21 @@ export function AuthProvider(props) {
     },
     [setUser]
   );
+
+  // user login function
   const login = React.useCallback(
     (form) => {
       auth.login(form).then((data) => setUser(data));
     },
     [setUser]
   );
+
+  // user logout function
+  const logout = React.useCallback(() => {
+    auth.logout().then(() => window.localStorage.removeItem(user));
+    setUser(null);
+  }, []);
+
   if (["loading", "idle"].includes(status)) {
     return (
       <div
@@ -50,7 +72,8 @@ export function AuthProvider(props) {
       </div>
     );
   }
-  const value = { user, register, login };
+
+  const value = { user, register, login, logout };
   return <AuthContext.Provider value={value} {...props} />;
 }
 

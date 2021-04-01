@@ -10,7 +10,9 @@ AuthContext.displayName = "AuthContext";
 export function AuthProvider(props) {
   const { data, status } = useQuery({
     queryKey: ["user"],
-    queryFn: auth.getUser,
+    queryFn: () => {
+      auth.getUser().catch((e) => window.localStorage.removeItem("user"));
+    },
   });
   const [user, setUser] = React.useState(() => {
     try {

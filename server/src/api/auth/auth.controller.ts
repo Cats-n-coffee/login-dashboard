@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Headers,
   HttpCode,
   Post,
   Req,
@@ -17,6 +16,7 @@ import {
   HelperService,
   IAutheUser,
 } from 'src/common/auth';
+import { Cookies } from 'src/common/decorators';
 import { AuthService } from './auth.service';
 
 @Controller('/api/auth')
@@ -43,9 +43,13 @@ export class AuthController {
     return this.handleAuthedRequest(res, user);
   }
 
-  @Get()
-  refresh() {
-    return { ye: 'yeah' };
+  @Get('token')
+  async renewToken(
+    @Cookies() cookies: Record<string, string>,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const user = await this.authService.renewToken(cookies);
+    if (user) return this.handleAuthedRequest(res, user);
   }
 
   @Get('/logout')

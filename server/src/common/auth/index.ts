@@ -14,3 +14,5 @@ export * from './helper.service';
 
 // export user service
 export * from './user.service';
+
+export * from './crypto/crypto.service';

@@ -31,3 +31,11 @@ export const ChangeLoginToRegister = css`
     white-space: pre;
   }
 `;
+
+export const ErrorLogin = css`
+  color: red;
+  height: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+  width: 100%;
+`;

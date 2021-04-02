@@ -3,7 +3,11 @@ import styled, { css } from "styled-components/macro";
 import * as React from "react";
 import AuthForm from "components/AuthForm";
 import { useAuth } from "context/auth.context";
-import { FormWrapper, ChangeLoginToRegister } from "../styles/styles";
+import {
+  FormWrapper,
+  ChangeLoginToRegister,
+  ErrorLogin,
+} from "../styles/styles";
 import { Link } from "react-router-dom";
 
 export default function LoginScreen() {
@@ -23,6 +27,13 @@ export default function LoginScreen() {
     >
       <h1>Login</h1>
       <AuthForm type="login" onSubmit={handleSubmit} />
+      <div
+        css={`
+          ${ErrorLogin}
+        `}
+      >
+        {/* error displayed here */}
+      </div>
       <div
         css={`
           ${ChangeLoginToRegister}

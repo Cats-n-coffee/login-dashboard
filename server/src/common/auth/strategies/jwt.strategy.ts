@@ -1,6 +1,6 @@
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { UserService } from '../user.service';
@@ -27,6 +27,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate({ sub }: any): Promise<IUser> {
     const user = await this.userService.findUser({ user_id: sub });
     if (user) return user;
-    throw new UnauthorizedException('Wrong credentials provided');
+    throw new ForbiddenException('Wrong credentials provided');
   }
 }

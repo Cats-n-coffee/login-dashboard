@@ -14,9 +14,17 @@ axios.interceptors.response.use(
       console.log("error 500");
       errorMessage = "Sorry there's a problem with the server";
     }
-    if (error.response.status === 401) {
+    if (error.response.status === 400) {
       auth.cleanUser();
       errorMessage = "Invalid email or password";
+    }
+
+    if (error.response.status === 403) {
+      auth.cleanUser();
+      errorMessage = "Requesting resource that require authentication.";
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500);
     }
 
     return Promise.reject(errorMessage); //error?.response.data?.msg

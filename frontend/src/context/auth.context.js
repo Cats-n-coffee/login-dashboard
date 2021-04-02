@@ -25,26 +25,21 @@ export function AuthProvider(props) {
 
   // user register function
   const register = React.useCallback(
-    (form) => {
-      auth.register(form).then((data) => {
-        setUser(data);
-      });
-    },
+    (form) => auth.register(form).then((data) => setUser(data)),
     [setUser]
   );
 
   // user login function
   const login = React.useCallback(
-    (form) => {
-      auth.login(form).then((data) => setUser(data));
-    },
+    (form) => auth.login(form).then((data) => setUser(data)),
     [setUser]
   );
 
   // user logout function
-  const logout = React.useCallback(() => {
-    auth.logout().then(() => setUser(null));
-  }, [setUser]);
+  const logout = React.useCallback(
+    () => auth.logout().then(() => setUser(null)),
+    [setUser]
+  );
 
   if (["loading", "idle"].includes(status)) {
     return (

@@ -18,24 +18,19 @@ function AuthForm({ onSubmit, type }) {
         validationSchema={AuthSchema}
         onSubmit={onSubmit}
       >
-        {({ isSubmitting, ...props }) => (
+        {({ isSubmitting }) => (
           <Form>
             {type === "login" ? null : (
               <Field
-                label={"User Name"}
+                label="User Name"
                 name="username"
                 type="text"
                 placeholder="username"
               />
             )}
+            <Field label="Email" name="email" type="text" placeholder="email" />
             <Field
-              label={"Email"}
-              name="email"
-              type="text"
-              placeholder="email"
-            />
-            <Field
-              label={"Password"}
+              label="Password"
               name="password"
               type="password"
               placeholder="Password"

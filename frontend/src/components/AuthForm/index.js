@@ -10,15 +10,19 @@ import { initialValues, AuthSchema } from "./auth.helper";
 import { Wrapper, RedirectWrap, ErrorWrap } from "./styles";
 
 function AuthForm({ onSubmit, type }) {
+  const [errMsg, setErrMSg] = React.useState("");
+  const handleSubmit = (values) => {
+    onSubmit(values).catch((errMsg) => setErrMSg(errMsg));
+  };
   return (
     <Wrapper>
       <h1>{type === "login" ? "Login" : "Sign up"}</h1>
       <Formik
         initialValues={initialValues}
         validationSchema={AuthSchema}
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, ...props }) => (
           <Form>
             {type === "login" ? null : (
               <Field
@@ -35,6 +39,7 @@ function AuthForm({ onSubmit, type }) {
               type="password"
               placeholder="Password"
             />
+            {isSubmitting && errMsg ? <ErrorWrap>{errMsg}</ErrorWrap> : null}
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting
                 ? type === "register"
@@ -45,7 +50,6 @@ function AuthForm({ onSubmit, type }) {
           </Form>
         )}
       </Formik>
-      <ErrorWrap></ErrorWrap>
       <RedirectWrap>
         {type === "login" ? (
           <>

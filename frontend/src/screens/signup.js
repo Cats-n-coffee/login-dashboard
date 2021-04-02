@@ -8,8 +8,6 @@ export default function SignUpScreen() {
     return () => (document.title = "Dashboard");
   }, []);
   const { register } = useAuth();
-  const handleSubmit = (values) => {
-    register(values);
-  };
+  const handleSubmit = (values) => register(values);
   return <AuthForm type="register" onSubmit={handleSubmit} />;
 }

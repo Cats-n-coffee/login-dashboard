@@ -8,8 +8,6 @@ export default function LoginScreen() {
     return () => (document.title = "Dashboard");
   }, []);
   const { login } = useAuth();
-  const handleSubmit = (values) => {
-    login(values);
-  };
+  const handleSubmit = (values) => login(values);
   return <AuthForm type="login" onSubmit={handleSubmit} />;
 }

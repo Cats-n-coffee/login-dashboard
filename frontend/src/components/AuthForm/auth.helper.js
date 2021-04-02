@@ -10,6 +10,6 @@ export const AuthSchema = Yup.object().shape({
 
 export const initialValues = {
   username: "",
-  email: "testaccount@gmail.com",
-  password: "password",
+  email: "",
+  password: "",
 };

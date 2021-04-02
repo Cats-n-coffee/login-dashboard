@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
 const ThemeContext = React.createContext();
 
-export const THEME_MODE = {
-  light: "light",
-  dark: "dark",
-};
+export const THEME_MODE = { light: "light", dark: "dark" };
 
 export function ThemeProvider(props) {
   const [theme, setTheme] = useState(() => {

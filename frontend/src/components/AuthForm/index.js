@@ -14,6 +14,11 @@ function AuthForm({ onSubmit, type }) {
   const handleSubmit = (values) => {
     onSubmit(values).catch((errMsg) => setErrMSg(errMsg));
   };
+  const handleFocus = (props) => (e) => {
+    props.setSubmitting(false);
+    setErrMSg("");
+  };
+
   return (
     <Wrapper>
       <h1>{type === "login" ? "Login" : "Sign up"}</h1>
@@ -23,7 +28,7 @@ function AuthForm({ onSubmit, type }) {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, ...props }) => (
-          <Form>
+          <Form onFocus={handleFocus(props)}>
             {type === "login" ? null : (
               <Field
                 label="User Name"

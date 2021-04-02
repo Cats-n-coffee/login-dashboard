@@ -13,7 +13,6 @@ axios.interceptors.response.use(
     }
     if (error.response.status === 401) {
       auth.cleanUser();
-      window.location.reload();
       errorMessage = "Invalid email or password";
     }
 

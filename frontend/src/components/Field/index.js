@@ -5,10 +5,8 @@ import PropTypes from "prop-types";
 import * as React from "react";
 import { Field, ErrorMessage } from "formik";
 
-export default function FormField({ type, label, ...props }) {
-  const component = type === "textarea" ? "textarea" : "input";
-  const fieldProps = { ...props, component };
-  if (type !== "textarea") fieldProps.type = type;
+export default function FormField({ label, ...props }) {
+  const fieldProps = { ...props };
   return (
     <div
       css={`
@@ -16,8 +14,7 @@ export default function FormField({ type, label, ...props }) {
         display: flex;
         flex-direction: column;
 
-        input,
-        textarea {
+        input {
           width: 100%;
           padding-left: 1rem;
           line-height: 2.625rem;
@@ -30,9 +27,6 @@ export default function FormField({ type, label, ...props }) {
             opacity: 1;
           }
         }
-        textarea {
-          min-height: 5.625rem;
-        }
         .error-msg {
           display: block;
           margin-top: 0.5rem;
@@ -44,10 +38,15 @@ export default function FormField({ type, label, ...props }) {
           display: flex;
           align-items: center;
           border-bottom: 1px solid var(--c30);
+          input {
+            flex-grow: 1;
+            align-self: flex-end;
+          }
         `}
       >
         <label
           css={`
+            min-width: 5.65rem;
             color: var(--color-text);
             letter-spacing: 0.03rem;
           `}

@@ -1,13 +1,9 @@
 // eslint-disable-next-line
-import styled, { css } from "styled-components/macro";
+import styled from "styled-components/macro";
 import * as React from "react";
 import AuthForm from "components/AuthForm";
 import { useAuth } from "context/auth.context";
-import {
-  FormWrapper,
-  ChangeLoginToRegister,
-  ErrorLogin,
-} from "../styles/styles";
+import { FormWrapper, ChangeLoginToRegister, ErrorLogin } from "styles/styles";
 import { Link } from "react-router-dom";
 
 export default function LoginScreen() {

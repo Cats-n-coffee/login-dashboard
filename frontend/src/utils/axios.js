@@ -8,7 +8,7 @@ axios.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       auth.cleanUser();
-      window.location = "/login";
+      window.location.reload();
     }
     return Promise.reject(error?.response.data?.msg);
   }

@@ -1,29 +1,16 @@
-import React, { useState } from "react";
 // eslint-disable-next-line
 import styled from "styled-components";
-
-const THEME_MODE = {
-  light: "light",
-  dark: "dark",
-};
+import React from "react";
+import { THEME_MODE, useTheme } from "../../../context/theme.context";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState(THEME_MODE.light);
+  const [theme, setTheme] = useTheme();
+  const { dark, light } = THEME_MODE;
 
-  const toggleTheme = (e) => {
-    setTheme((theme) => {
-      if (theme === THEME_MODE.light) {
-        setTheme(THEME_MODE.dark);
-      } else {
-        setTheme(THEME_MODE.light);
-      }
-    });
+  const toggleTheme = () => {
+    theme === dark ? setTheme(light) : setTheme(dark);
     return false;
   };
-
-  React.useEffect(() => {
-    document.body.dataset.theme = theme;
-  }, [theme]);
 
   return <button onClick={toggleTheme}>Switch theme</button>;
 }

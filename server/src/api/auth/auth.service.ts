@@ -26,7 +26,7 @@ export class AuthService {
     await this.userService.updateUser(user.id, { token: null });
   }
 
-  async renewToken(cookies: any): Promise<IAutheUser> {
+  async renewToken(cookies: Record<string, string>): Promise<IAutheUser> {
     const { name } = this.confService.get('app.auth.refresh');
     const token = cookies[name].split(';')[0].split('=')[1];
     if (!token) {

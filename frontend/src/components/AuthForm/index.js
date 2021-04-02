@@ -9,14 +9,29 @@ import { Link } from "react-router-dom";
 import { initialValues, AuthSchema } from "./auth.helper";
 import { Wrapper, RedirectWrap, ErrorWrap } from "./styles";
 
+function ErrorMsg({ isSubmitting, errMsg, onClearMsg }) {
+  React.useEffect(() => {
+    let t1 = setTimeout(() => {
+      clearTimeout(t1);
+      t1 = null;
+      onClearMsg();
+    }, 3000);
+  }, [errMsg]);
+  if (!isSubmitting) return null;
+  return <ErrorWrap>{errMsg.toString()}</ErrorWrap>;
+}
 function AuthForm({ onSubmit, type }) {
-  const [errMsg, setErrMSg] = React.useState("");
+  const [errMsg, setErrMsg] = React.useState("");
   const handleSubmit = (values) => {
-    onSubmit(values).catch((errMsg) => setErrMSg(errMsg));
+    onSubmit(values).catch((errMsg) => setErrMsg(errMsg));
   };
-  const handleFocus = (props) => (e) => {
+  const handleFocus = (props) => () => {
     props.setSubmitting(false);
-    setErrMSg("");
+    setErrMsg("");
+  };
+  const handleClearMsg = (props) => () => {
+    props.setSubmitting(false);
+    setErrMsg("");
   };
 
   return (
@@ -44,7 +59,11 @@ function AuthForm({ onSubmit, type }) {
               type="password"
               placeholder="Password"
             />
-            {isSubmitting && errMsg ? <ErrorWrap>{errMsg}</ErrorWrap> : null}
+            <ErrorMsg
+              errMsg={errMsg}
+              isSubmitting={isSubmitting}
+              onClearMsg={handleClearMsg(props)}
+            />
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting
                 ? type === "register"

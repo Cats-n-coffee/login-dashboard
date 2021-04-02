@@ -6,7 +6,10 @@ axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.interceptors.response.use(
   (res) => res.data,
   (error) => {
-    var errorMessage = "";
+    let errorMessage = "";
+    try {
+      errorMessage = error.response.data.msg;
+    } catch (e) {}
     if (!error.response) {
       console.log("error 500");
       errorMessage = "Sorry there's a problem with the server";

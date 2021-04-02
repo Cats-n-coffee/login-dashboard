@@ -15,7 +15,6 @@ export default function FormField({ type, label, ...props }) {
         margin-bottom: 1rem;
         display: flex;
         flex-direction: column;
-        border-bottom: 1px solid var(--c30);
 
         input,
         textarea {
@@ -36,7 +35,6 @@ export default function FormField({ type, label, ...props }) {
         }
         .error-msg {
           display: block;
-          padding-left: 5.85rem;
           margin-top: 0.5rem;
         }
       `}
@@ -45,6 +43,7 @@ export default function FormField({ type, label, ...props }) {
         css={`
           display: flex;
           align-items: center;
+          border-bottom: 1px solid var(--c30);
         `}
       >
         <label

@@ -19,12 +19,10 @@ axios.interceptors.response.use(
       errorMessage = "Invalid email or password";
     }
 
-    if (error.response.status === 403) {
+    if ([401, 403].includes(error.response.status)) {
       auth.cleanUser();
       errorMessage = "Requesting resource that require authentication.";
-      setTimeout(() => {
-        window.location.reload();
-      }, 2500);
+      window.location.reload();
     }
 
     return Promise.reject(errorMessage); //error?.response.data?.msg

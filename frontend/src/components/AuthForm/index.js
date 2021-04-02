@@ -18,7 +18,7 @@ function ErrorMsg({ isSubmitting, errMsg, onClearMsg }) {
         onClearMsg();
       }, 3000);
     }
-  }, [errMsg]);
+  }, [errMsg, onClearMsg]);
   if (!isSubmitting) return null;
   return <ErrorWrap>{errMsg.toString()}</ErrorWrap>;
 }

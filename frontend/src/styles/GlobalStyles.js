@@ -24,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
     --color-text: var(--c10);
     --color-boxes: var(--c20);
     --color-background: var(--c21);
-  
+    --color-background-auth: var(--g01);
   }
   body {
     min-height: 100vh;
@@ -33,7 +33,7 @@ const GlobalStyle = createGlobalStyle`
     min-width: 280px;
     font-family: "Publuic Sans", Roboto,Helvetica Neue,sans-serif;
     font-weight: var(--font-normal);
-    background: var(--g01);
+    background: var(--color-background-auth);
   }
   :root {
     --c00: ${colors.c00};

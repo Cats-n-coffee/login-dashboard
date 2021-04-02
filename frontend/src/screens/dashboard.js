@@ -6,6 +6,11 @@ export default function DashboardScreen() {
   React.useEffect(() => {
     axios.get("dashboard");
   }, []);
+
+  React.useEffect(() => {
+    document.body.style.background = "var(--color-background)";
+  }, []);
+
   return (
     <div>
       <TopPanel />

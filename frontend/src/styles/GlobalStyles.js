@@ -28,7 +28,6 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     min-height: 100vh;
-    font-weight:var(--font-normal);
     overflow-y: scroll;
     min-width: 280px;
     font-family: "Publuic Sans", Roboto,Helvetica Neue,sans-serif;

@@ -7,9 +7,7 @@ export const THEME_MODE = { light: "light", dark: "dark" };
 export function ThemeProvider(props) {
   const [theme, setTheme] = useState(() => {
     try {
-      return JSON.parse(
-        window.localStorage.getItem("theme") || THEME_MODE.dark
-      );
+      return window.localStorage.getItem("theme") || THEME_MODE.dark;
     } catch (err) {
       return THEME_MODE.dark;
     }
@@ -24,8 +22,6 @@ export function ThemeProvider(props) {
 
   return <ThemeContext.Provider value={value} {...props} />;
 }
-// local storage theme
-// default theme
 
 export function useTheme() {
   const context = React.useContext(ThemeContext);

@@ -11,11 +11,13 @@ import { Wrapper, RedirectWrap, ErrorWrap } from "./styles";
 
 function ErrorMsg({ isSubmitting, errMsg, onClearMsg }) {
   React.useEffect(() => {
-    let t1 = setTimeout(() => {
-      clearTimeout(t1);
-      t1 = null;
-      onClearMsg();
-    }, 3000);
+    if (errMsg) {
+      let t1 = setTimeout(() => {
+        clearTimeout(t1);
+        t1 = null;
+        onClearMsg();
+      }, 3000);
+    }
   }, [errMsg]);
   if (!isSubmitting) return null;
   return <ErrorWrap>{errMsg.toString()}</ErrorWrap>;

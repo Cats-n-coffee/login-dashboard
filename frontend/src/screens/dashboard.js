@@ -8,9 +8,9 @@ import { ChartSales } from "components/Charts/ChartSales";
 import { ChartActivity } from "components/Charts/ChartActivity";
 
 export default function DashboardScreen() {
-  React.useEffect(() => {
-    axios.get("dashboard");
-  }, []);
+  // React.useEffect(() => {
+  //   axios.get("dashboard");
+  // }, []);
 
   React.useEffect(() => {
     document.body.style.background = "var(--color-background)";

@@ -13,6 +13,10 @@ docker build -t dashboard/backend .
   ```sh
     docker run -p 8080:3000 dashboard/backend 
   ```
+  - Start container in detach mode
+  ```sh
+  docker run -p 8080:3000  -d dashboard/backend 
+  ```
 
 After runing the above two commands, our API services serves us at the **8080** port.
 

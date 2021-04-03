@@ -1,3 +1,0 @@
-#README
-
-style related stuff

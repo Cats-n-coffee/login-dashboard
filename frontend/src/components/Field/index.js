@@ -41,6 +41,7 @@ export default function FormField({ label, ...props }) {
           input {
             flex-grow: 1;
             align-self: flex-end;
+            background: none;
           }
         `}
       >

@@ -51,8 +51,8 @@ function LogoutButton() {
         background: var(--color-titles);
         color: var(--color-boxes);
         letter-spacing: 0.1rem;
-        padding: 0.7em 1.2em;
-        font-size: 1rem;
+        padding: 0.6em 1em;
+        font-size: 0.9rem;
       `}
       onClick={handleLogout}
     >
@@ -75,6 +75,11 @@ export default function TopPanel() {
         position: relative;
         display: flex;
         justify-content: flex-end;
+        padding: 0.7em;
+
+        ${medium} {
+          padding: 0.1em;
+        }
       `}
     >
       <MobileMenuIcon onClick={toggleMenu}>

@@ -49,22 +49,26 @@ export const ChartRevenus = (props) => {
       .append("rect")
       .attr("class", "bar")
       .attr("x", function (d, i) {
-        return i * 10;
+        return i * 15;
       })
       .attr("width", 5)
-      .attr("height", (d) => d / 2)
+      .attr("height", (d) => d / 20)
       .attr("fill", "yellow");
 
     const yScale = d3.scaleLinear().domain([1200, 2500]).range([0, 300]);
     const yAxis = d3.axisBottom(yScale);
-    //.scale(yScale)
 
     svgChart
       .append("g")
       .attr("transform", "translate(0, 150)")
       .call(yAxis)
-      .style("stroke", "white");
-    svgChart.selectAll(".domain").attr("stroke", "white");
+      .select(".domain")
+      .attr("stroke", "#fff")
+      .select("line")
+      .attr("stroke", "white")
+      .select("text")
+      .attr("fill", "white");
+    //svgChart.selectAll(".domain").attr("stroke", "white");
   }, [dataset]);
 
   return (
@@ -76,7 +80,26 @@ export const ChartRevenus = (props) => {
         ${ChartWrapper}
       `}
     >
-      <svg viewBox="0 0 300 150" ref={svgRef} />
+      <svg
+        viewBox="0 0 300 250"
+        ref={svgRef}
+        css={`
+          .axis {
+            stroke: white;
+            path {
+              stroke: white;
+            }
+            .tick {
+              line {
+                stroke: white;
+              }
+              text {
+                fill: white;
+              }
+            }
+          }
+        `}
+      />
     </div>
   );
 };

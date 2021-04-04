@@ -15,7 +15,7 @@ import { ChartWrapper } from "./styles";
 
 export const ChartRevenus = (props) => {
   const [dataset, setDataset] = useState([]); //set state with data to be used in useEffect
-  // gets the data
+  // eslint-disable-next-line
   const { data, error } = useQuery("chartData", () => {
     fetch(`${process.env.REACT_APP_BASE_URL}/dashboard`, {
       credentials: "include",

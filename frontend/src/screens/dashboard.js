@@ -6,12 +6,9 @@ import { medium } from "../styles/media-queries";
 import { ChartRevenus } from "components/Charts/ChartRevenus";
 import { ChartSales } from "components/Charts/ChartSales";
 import { ChartActivity } from "components/Charts/ChartActivity";
+import { TableDashboard } from "components/Table/index";
 
 export default function DashboardScreen() {
-  // React.useEffect(() => {
-  //   axios.get("dashboard");
-  // }, []);
-
   React.useEffect(() => {
     document.body.style.background = "var(--color-background)";
   }, []);
@@ -59,7 +56,9 @@ export default function DashboardScreen() {
           <ChartActivity />
         </div>
         <div className="bar-chart"></div>
-        <div className="table"></div>
+        <div className="table">
+          <TableDashboard />
+        </div>
       </div>
     </div>
   );

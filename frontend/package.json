@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^4.15.0",
     "axios": "^0.21.1",
     "d3": "^6.6.2",
     "formik": "^2.2.6",

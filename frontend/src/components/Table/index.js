@@ -1,3 +1,5 @@
+// eslint-disable-next-line
+import styled from "styled-components/macro";
 import React, { useState } from "react";
 import { Table } from "antd";
 import { useQuery } from "react-query";
@@ -39,5 +41,44 @@ export const TableDashboard = (props) => {
       });
   });
 
-  return <Table dataSource={dataset} columns={columns} />;
+  return (
+    <Table
+      dataSource={dataset}
+      columns={columns}
+      css={`
+        .ant-table {
+          color: var(--color-text);
+          background: var(--color-boxes);
+          border-radius: 6px;
+        }
+
+        .ant-table-content {
+          table {
+            border-radius: 6px;
+
+            .ant-table-thead {
+              tr {
+                th {
+                  color: var(--color-titles);
+                  background: var(--color-boxes);
+                  border-bottom: 1px solid var(--color-text);
+                }
+              }
+            }
+
+            .ant-table-tbody {
+              tr {
+                td {
+                  border-bottom: 1px solid var(--c30);
+                }
+              }
+            }
+            .ant-table-tbody > tr.ant-table-row:hover > td {
+              background: none;
+            }
+          }
+        }
+      `}
+    />
+  );
 };

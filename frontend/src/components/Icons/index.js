@@ -3,7 +3,7 @@ import * as React from "react";
 export const Github = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    dataName="Layer 1"
+    data-name="Layer 1"
     viewBox="0 0 24 24"
     {...props}
   >
@@ -14,7 +14,7 @@ export const Github = (props) => (
 export const Moon = (props) => {
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    dataName="Layer 1"
+    data-name="Layer 2"
     viewBox="0 0 16 16"
     {...props}
   >
@@ -25,7 +25,7 @@ export const Moon = (props) => {
 export const Sun = (props) => {
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    dataName="Layer 1"
+    data-name="Layer 3"
     viewBox="0 0 16 16"
     {...props}
   >

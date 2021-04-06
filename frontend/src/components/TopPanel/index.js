@@ -2,10 +2,10 @@
 import styled, { css } from "styled-components/macro";
 import * as React from "react";
 import { THEME_MODE, useTheme } from "context/theme.context";
-import { useAuth } from "../../context/auth.context";
 import { ToggleButtonStyled } from "./toggleStyles";
 import { MobileMenuIcon } from "./MobileMenu";
 import { medium } from "../../styles/media-queries";
+import { useLogout } from "../../utils/auth.hooks";
 //import { Moon, Sun } from "../Icons";
 
 const { dark, light } = THEME_MODE;
@@ -32,10 +32,10 @@ function ThemeToggle() {
 
 function LogoutButton() {
   const [color, setColor] = React.useState("var(--color-background)");
-  const { logout } = useAuth();
+  const { mutate } = useLogout();
 
-  const handleLogout = (e) => {
-    logout();
+  const handleLogout = (data) => {
+    mutate(data);
     setColor("var(--color-background-auth)");
   };
 

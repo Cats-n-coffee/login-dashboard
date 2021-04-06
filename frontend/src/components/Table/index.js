@@ -44,5 +44,7 @@ export const TableDashboard = (props) => {
     return <p>{JSON.stringify(error)}</p>;
   }
 
-  return <Table dataSource={dataset} columns={columns} />;
+  return (
+    <Table dataSource={dataset} columns={columns} rowKey={(row) => row.id} />
+  );
 };

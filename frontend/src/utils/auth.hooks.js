@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient } from "react-query";
-//import Cookies from "js-cookie";
 
 const conf = {
   staleTime: 29 * 60 * 1000, //milliseconds,
@@ -7,11 +6,6 @@ const conf = {
   retry: 0,
 };
 
-// const conf = {
-//   jwt: process.env.REACT_APP_JWT_KEY,
-//   refresh: process.env.REACT_APP_REFRESH_KEY,
-//   user: process.env.REACT_APP_USER_KEY,
-// };
 export function getUser() {
   return client({ endpoint: "auth/token", data: null, method: "GET" });
 }
@@ -75,7 +69,6 @@ async function client({ endpoint, data, method }) {
     .fetch(`${authURL}/${endpoint}`, config)
     .then(async (response) => {
       const data = await response.json();
-      console.log(response);
       if (response.ok) {
         return data;
       }

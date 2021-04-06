@@ -9,7 +9,7 @@ AuthContext.displayName = "AuthContext";
 
 export function AuthProvider(props) {
   const queryClient = useQueryClient();
-  const { data, status, error } = useGetUser();
+  const { data, status } = useGetUser();
   const [user, setUser] = React.useState(() => {
     try {
       return queryClient.getQueryData(["user"]);

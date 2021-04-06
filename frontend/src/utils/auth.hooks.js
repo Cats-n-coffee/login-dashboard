@@ -75,13 +75,14 @@ async function client({ endpoint, data, method }) {
     .fetch(`${authURL}/${endpoint}`, config)
     .then(async (response) => {
       const data = await response.json();
+      console.log(response);
       if (response.ok) {
         return data;
       }
       if (response.status === 401) {
         //useGetUser(); // handle the 401 after jwt is gone?
         return new Promise((resolve, reject) => {
-          fetch("auth/token")
+          client("auth/token", { method: "GET" })
             .then((res) => resolve(res))
             .catch((err) => reject(err));
         });

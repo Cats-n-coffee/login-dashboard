@@ -1,7 +1,7 @@
-import * as React from "react";
-import axios from "utils/axios";
-import TopPanel from "components/TopPanel";
+// eslint-disable-next-line
 import styled from "styled-components/macro";
+import * as React from "react";
+import TopPanel from "components/TopPanel";
 import { medium } from "../styles/media-queries";
 import { ChartRevenus } from "components/Charts/ChartRevenus";
 import { ChartSales } from "components/Charts/ChartSales";

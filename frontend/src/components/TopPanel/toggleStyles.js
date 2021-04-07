@@ -1,4 +1,4 @@
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
 
 export const ToggleButtonStyled = styled.button`
   width: 45px;
@@ -24,5 +24,17 @@ export const ToggleButtonStyled = styled.button`
     &:before {
       transform: translateX(22px);
     }
+  }
+`;
+
+export const ToggleWrapper = css`
+  display: flex;
+  align-items: center;
+  width: 87px;
+`;
+
+export const ToggleSvg = css`
+  path {
+    fill: var(--color-titles);
   }
 `;

@@ -2,11 +2,11 @@
 import styled, { css } from "styled-components/macro";
 import * as React from "react";
 import { THEME_MODE, useTheme } from "context/theme.context";
-import { ToggleButtonStyled } from "./toggleStyles";
+import { ToggleButtonStyled, ToggleWrapper, ToggleSvg } from "./toggleStyles";
 import { MobileMenuIcon } from "./MobileMenu";
 import { medium } from "../../styles/media-queries";
 import { useLogout } from "../../utils/auth.hooks";
-//import { Moon, Sun } from "../Icons";
+import { Moon, Sun } from "../Icons";
 
 const { dark, light } = THEME_MODE;
 
@@ -19,14 +19,32 @@ function ThemeToggle() {
   };
 
   return (
-    <>
-      {/* <Moon /> */}
+    <div
+      css={`
+        ${ToggleWrapper}
+      `}
+    >
+      <Moon
+        css={`
+          width: 12px;
+          height: 12px;
+          margin: 0 5px 0 0;
+          ${ToggleSvg}
+        `}
+      />
       <ToggleButtonStyled
         onClick={handleClick}
         className={theme === light ? "toggle" : null}
       ></ToggleButtonStyled>
-      {/* <Sun /> */}
-    </>
+      <Sun
+        css={`
+          width: 20px;
+          height: 19px;
+          margin: 0 0 0 5px;
+          ${ToggleSvg}
+        `}
+      />
+    </div>
   );
 }
 

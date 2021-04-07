@@ -1,9 +1,10 @@
 // eslint-disable-next-line
 import styled from "styled-components/macro";
-import React, { useRef, useEffect, useState } from "react";
-import * as d3 from "d3";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { ChartWrapper } from "./styles";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 
 // const fetchDashApi = () => {
 //   fetch(`${process.env.REACT_APP_BASE_URL}/dashboard`, {
@@ -12,6 +13,21 @@ import { ChartWrapper } from "./styles";
 //     .then((res) => res.json())
 //     .then((data) => console.log(data.data.graph.revenus));
 // };
+
+const options = {
+  chart: {
+    type: "spline",
+    backgroundColor: "var(--color-boxes)",
+  },
+  title: {
+    text: "my chart",
+  },
+  series: [
+    {
+      data: [1, 2, 3, 4, 5, 6],
+    },
+  ],
+};
 
 export const ChartRevenus = (props) => {
   const [dataset, setDataset] = useState([]); //set state with data to be used in useEffect
@@ -29,46 +45,8 @@ export const ChartRevenus = (props) => {
     return setDataset(Object.values(data));
   };
 
-  // creates the ref needed for the svg
-  const svgRef = useRef();
-  const width = 300;
-  const height = 150;
-
-  //   const xScale = d3.scaleLinear()
-  //                   .domain()
-  //                   .range(0, 300);
-
   useEffect(() => {
     console.log(dataset);
-
-    const svgChart = d3.select(svgRef.current);
-    svgChart
-      .selectAll("rect")
-      .data(dataset)
-      .enter()
-      .append("rect")
-      .attr("class", "bar")
-      .attr("x", function (d, i) {
-        return i * 15;
-      })
-      .attr("width", 5)
-      .attr("height", (d) => d / 20)
-      .attr("fill", "yellow");
-
-    const yScale = d3.scaleLinear().domain([1200, 2500]).range([0, 300]);
-    const yAxis = d3.axisBottom(yScale);
-
-    svgChart
-      .append("g")
-      .attr("transform", "translate(0, 150)")
-      .call(yAxis)
-      .select(".domain")
-      .attr("stroke", "#fff")
-      .select("line")
-      .attr("stroke", "white")
-      .select("text")
-      .attr("fill", "white");
-    //svgChart.selectAll(".domain").attr("stroke", "white");
   }, [dataset]);
 
   return (
@@ -80,30 +58,7 @@ export const ChartRevenus = (props) => {
         ${ChartWrapper}
       `}
     >
-      <svg
-        viewBox="0 0 300 250"
-        ref={svgRef}
-        css={`
-          .axis {
-            stroke: white;
-            path {
-              stroke: white;
-            }
-            .tick {
-              line {
-                stroke: white;
-              }
-              text {
-                fill: white;
-              }
-            }
-          }
-        `}
-      />
+      <HighchartsReact highcharts={Highcharts} options={options} />
     </div>
   );
 };
-
-//Chrome issue?
-
-//To set up the editor integration, add something like REACT_EDITOR=atom to the .env.local file in your project folder and restart the development server. Learn more: https://goo.gl/MMTaZt

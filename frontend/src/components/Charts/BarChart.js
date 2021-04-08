@@ -57,20 +57,20 @@ const options = {
   ],
 };
 
-export const ChartSales = (props) => {
+export const BarChart = (props) => {
   const [categories, setCategories] = useState([]); // set categories for xAxis
   const [dataset, setDataset] = useState([]); //set state with data to be used in useEffect
   const [chartOptions, setChartOptions] = useState(options); //set chart options when data is fetched
 
   // eslint-disable-next-line
-  const { data, error } = useQuery("salesChart", () => {
+  const { data, error } = useQuery("barChart", () => {
     fetch(`${process.env.REACT_APP_BASE_URL}/dashboard`, {
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
-        setDataset(Object.values(data.data.graph.transactions));
-        setCategories(Object.keys(data.data.graph.transactions));
+        setDataset(Object.values(data.data.graph.revenus));
+        setCategories(Object.keys(data.data.graph.revenus));
       });
   });
 
@@ -79,9 +79,9 @@ export const ChartSales = (props) => {
 
     setChartOptions({
       chart: {
-        type: "spline",
+        type: "bar",
         backgroundColor: "var(--color-boxes)",
-        height: 200,
+        height: "100%",
       },
 
       xAxis: {
@@ -124,7 +124,7 @@ export const ChartSales = (props) => {
       },
 
       title: {
-        text: "Sales per Month",
+        text: "Revenus in bars",
         style: {
           color: "var(--color-text)",
           fontWeight: "normal",

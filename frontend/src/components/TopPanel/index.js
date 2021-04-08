@@ -94,6 +94,7 @@ export default function TopPanel() {
         display: flex;
         justify-content: flex-end;
         padding: 0.7em;
+        z-index: 1;
 
         ${medium} {
           padding: 0.1em;
@@ -119,6 +120,7 @@ export default function TopPanel() {
           align-items: center;
           background: var(--color-boxes);
           border-radius: 6px;
+          z-index: 2;
 
           &.toggled {
             display: flex;

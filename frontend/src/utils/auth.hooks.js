@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import { client } from "./api-client";
 
 const conf = {
   staleTime: 29 * 60 * 1000, //milliseconds,
@@ -40,7 +41,6 @@ export function useRegister() {
 }
 
 export function useLogout() {
-  // this is GET why we use useQuery?
   const queryClient = useQueryClient();
   return useMutation(
     () => client({ endpoint: "auth/logout", data: null, method: "GET" }),
@@ -52,35 +52,4 @@ export function useLogout() {
       },
     }
   );
-}
-
-const authURL = process.env.REACT_APP_BASE_URL;
-
-async function client({ endpoint, data, method }) {
-  const config = {
-    method: method,
-    origin: true,
-    credentials: "include",
-    body: data ? JSON.stringify(data) : undefined,
-    headers: { "Content-Type": "application/json" },
-  };
-
-  return window
-    .fetch(`${authURL}/${endpoint}`, config)
-    .then(async (response) => {
-      const data = await response.json();
-      if (response.ok) {
-        return data;
-      }
-      if (response.status === 401) {
-        //useGetUser(); // handle the 401 after jwt is gone?
-        return new Promise((resolve, reject) => {
-          client("auth/token", { method: "GET" })
-            .then((res) => resolve(res))
-            .catch((err) => reject(err));
-        });
-      } else {
-        return Promise.reject(data);
-      }
-    });
 }

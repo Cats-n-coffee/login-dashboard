@@ -7,6 +7,7 @@ import { ChartRevenus } from "components/Charts/ChartRevenus";
 import { ChartSales } from "components/Charts/ChartSales";
 import { ChartActivity } from "components/Charts/ChartActivity";
 import { TableDashboard } from "components/Table/index";
+import { BarChart } from "components/Charts/BarChart";
 
 export default function DashboardScreen() {
   React.useEffect(() => {
@@ -16,7 +17,7 @@ export default function DashboardScreen() {
   return (
     <div
       css={`
-        height: 100vh;
+        min-height: 100vh;
         display: grid;
         grid-template-columns: minmax(0, 1fr);
         grid-template-rows: auto 1fr;
@@ -32,6 +33,7 @@ export default function DashboardScreen() {
             "top-row"
             "bar"
             "table";
+          place-items: center;
           padding: 0.5em;
 
           ${medium} {
@@ -48,14 +50,20 @@ export default function DashboardScreen() {
           css={`
             grid-area: top-row;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+
+            ${medium} {
+              flex-direction: row;
+            }
           `}
         >
           <ChartRevenus />
           <ChartSales />
           <ChartActivity />
         </div>
-        <div className="bar-chart"></div>
+        <div className="bar-chart">
+          <BarChart />
+        </div>
         <div className="table">
           <TableDashboard />
         </div>

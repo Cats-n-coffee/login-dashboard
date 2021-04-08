@@ -2,9 +2,11 @@
   color: var(--color-text);
   background: var(--color-boxes);
   border-radius: 6px;
+  padding: 8px;
 }
 
 .ant-table-content {
+  border-radius: 6px;
   table {
     border-radius: 6px;
 
@@ -23,6 +25,7 @@
       tr {
         td {
           border-bottom: 1px solid var(--c30);
+          padding: 12px 16px;
         }
       }
     }

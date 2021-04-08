@@ -82,7 +82,6 @@ export const ChartRevenus = (props) => {
         type: "spline",
         backgroundColor: "var(--color-boxes)",
         height: 200,
-        width: 300,
         styledMode: true,
       },
 
@@ -125,6 +124,14 @@ export const ChartRevenus = (props) => {
         },
       },
 
+      // responsive: {
+      //   rules : [ {
+      //     condition: {
+      //       maxWidth: 400,
+      //     }
+      //   } ]
+      // },
+
       title: {
         text: "Revenus in Line",
         style: {
@@ -144,29 +151,14 @@ export const ChartRevenus = (props) => {
   return (
     <div
       css={`
-        height: auto;
-        line-height: 0;
-        width: 100%;
-        flex-shrink: 1;
-        overflow: hidden;
         ${ChartWrapper}
-
-        [data-highcharts-charts="0"] {
-          width: 300px;
-        }
       `}
     >
       <HighchartsReact
+        containerProps={{ style: { width: "100%" } }}
+        constructorType={"chart"}
         highcharts={Highcharts}
         options={chartOptions}
-        // style={{ width: '300px' }}
-        // css={`
-        // width: 300px;
-        // .highcharts-container{
-        //   max-width: 350px;
-        // }
-
-        // `}
       />
     </div>
   );

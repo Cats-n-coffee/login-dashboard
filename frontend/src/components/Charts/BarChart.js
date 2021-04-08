@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { ChartWrapper } from "./styles";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { medium } from "../../styles/media-queries";
 
 const options = {
   chart: {
@@ -81,7 +82,6 @@ export const BarChart = (props) => {
       chart: {
         type: "bar",
         backgroundColor: "var(--color-boxes)",
-        height: "100%",
       },
 
       xAxis: {
@@ -142,17 +142,26 @@ export const BarChart = (props) => {
   return (
     <div
       css={`
-        height: auto;
-        line-height: 0;
-        width: auto;
         ${ChartWrapper}
+        height: 100%;
+
+        ${medium} {
+          width: 100%;
+
+          [data-highcharts-chart] {
+            width: 100%;
+            max-width: unset;
+            height: 100%;
+
+            .highcharts-container {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
       `}
     >
-      <HighchartsReact
-        highcharts={Highcharts}
-        options={chartOptions}
-        css={``}
-      />
+      <HighchartsReact highcharts={Highcharts} options={chartOptions} />
     </div>
   );
 };

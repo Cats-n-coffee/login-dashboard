@@ -18,6 +18,7 @@ const GlobalStyle = createGlobalStyle`
     --color-boxes: var(--c11);
     --color-background: var(--c10);
     --color-background-auth: var(--g01);
+    --color-mobile-blur: rgba(1, 129, 147, 0.6);
   }
   body[data-theme="dark"] {
     --color-titles: var(--c01);
@@ -25,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
     --color-boxes: var(--c20);
     --color-background: var(--c21);
     --color-background-auth: var(--g01);
+    --color-mobile-blur: rgba(111, 255, 87, 0.4);
   }
   body {
     min-height: 100vh;
@@ -45,6 +47,7 @@ const GlobalStyle = createGlobalStyle`
     --g01: linear-gradient(to bottom, ${colors.cg01}, ${colors.cg02});
     --font-normal: 400;
     --font-bold: 700;
+    --font-family: "Publuic Sans", Roboto,Helvetica Neue,sans-serif;
   }
   a,
   button,

@@ -48,6 +48,23 @@ function ThemeToggle() {
   );
 }
 
+function DateComponent() {
+  const todayDate = Date.now();
+  const newDate = new Date(todayDate);
+  const readableDate = newDate.toDateString();
+
+  return (
+    <div
+      css={`
+        color: var(--color-titles);
+        font-family: var(--font-family);
+      `}
+    >
+      {readableDate}
+    </div>
+  );
+}
+
 function LogoutButton() {
   const [color, setColor] = React.useState("var(--color-background)");
   const { mutate } = useLogout();
@@ -85,6 +102,14 @@ export default function TopPanel() {
   const toggleMenu = () => {
     setMenuToggled(!menuToggled);
   };
+
+  React.useEffect(() => {
+    if (menuToggled) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "scroll";
+    }
+  }, [menuToggled]);
   return (
     <header
       css={`
@@ -97,10 +122,29 @@ export default function TopPanel() {
         z-index: 1;
 
         ${medium} {
-          padding: 0.1em;
+          padding: 5px;
         }
       `}
     >
+      <div
+        css={`
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100vw;
+          height: 100vh;
+          z-index: 2;
+          background: var(--color-mobile-blur);
+          display: none;
+
+          &.toggled {
+            display: block;
+          }
+        `}
+        className={menuToggled ? "toggled" : null}
+      ></div>
       <MobileMenuIcon onClick={toggleMenu}>
         <span></span>
         <span></span>
@@ -114,13 +158,15 @@ export default function TopPanel() {
           left: 0;
           right: 0;
           width: 70%;
-          padding: 1em;
+          height: 25vh;
+          padding: 1.5em;
           margin: 0 auto;
           flex-direction: column;
+          justify-content: space-between;
           align-items: center;
           background: var(--color-boxes);
           border-radius: 6px;
-          z-index: 2;
+          z-index: 3;
 
           &.toggled {
             display: flex;
@@ -130,14 +176,16 @@ export default function TopPanel() {
             position: static;
             margin: 0;
             width: 100%;
+            height: auto;
             flex-direction: row;
             justify-content: space-between;
+            padding: 0;
           }
         `}
         className={menuToggled ? "toggled" : null}
       >
         <ThemeToggle />
-        panel
+        <DateComponent />
         <LogoutButton />
       </div>
     </header>

@@ -70,29 +70,6 @@ export const BarChart = (props) => {
       setCategories(Object.keys(data.data.graph.revenus));
       setDataset(Object.values(data.data.graph.revenus));
     }
-    if (["loading", "idle"].includes(status)) {
-      return (
-        <div
-          css={`
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-          `}
-        >
-          <p>Loading...</p>
-        </div>
-      );
-    }
-
-    if (status === "error") {
-      console.log("error");
-    }
-    return () => {};
   }, [status, data]);
 
   useEffect(() => {
@@ -158,6 +135,29 @@ export const BarChart = (props) => {
       ],
     });
   }, [dataset, categories]);
+
+  if (["loading", "idle"].includes(status)) {
+    return (
+      <div
+        css={`
+          position: fixed;
+          top: 0;
+          width: 100vw;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 3rem;
+        `}
+      >
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (status === "error") {
+    console.log("error");
+  }
 
   return (
     <div

@@ -17,7 +17,6 @@ export async function client({ endpoint, data, method }) {
         return data;
       }
       if (response.status === 401) {
-        //useGetUser(); // handle the 401 after jwt is gone?
         return new Promise((resolve, reject) => {
           client("auth/token", { method: "GET" })
             .then((res) => resolve(res))

@@ -1,7 +1,7 @@
-import { css } from "styled-components/macro";
+import styled from "styled-components/macro";
 import { medium } from "../../styles/media-queries";
 
-export const ChartWrapper = css`
+export const ChartWrapper = styled.div`
   background: var(--color-boxes);
   border-radius: 6px;
   max-width: 467px;

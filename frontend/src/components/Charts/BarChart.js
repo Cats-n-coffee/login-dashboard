@@ -6,57 +6,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { medium } from "../../styles/media-queries";
 import { useChartQuery } from "./charts.hooks";
-
-const options = {
-  chart: {
-    type: "spline",
-    backgroundColor: "var(--color-boxes)",
-  },
-
-  xAxis: {
-    labels: {
-      style: {
-        color: "var(--color-text)",
-      },
-    },
-    tickLength: 0,
-  },
-
-  yAxis: {
-    gridLineColor: "var(--color-boxes)",
-    labels: {
-      style: {
-        color: "var(--color-text)",
-      },
-    },
-    title: {
-      style: {
-        color: "var(--color-text)",
-      },
-    },
-    lineWidth: 1,
-  },
-
-  legend: {
-    enabled: false,
-  },
-
-  plotOptions: {
-    series: {
-      color: "var(--color-titles)",
-    },
-  },
-
-  title: {
-    text: "my chart",
-  },
-
-  series: [
-    {
-      data: [1, 2, 3, 4, 5, 6],
-    },
-  ],
-};
+import { options } from "./charts.options";
 
 export const BarChart = (props) => {
   const [categories, setCategories] = useState([]); // set categories for xAxis
@@ -76,6 +26,7 @@ export const BarChart = (props) => {
     console.log("bar", dataset);
 
     setChartOptions({
+      ...options,
       chart: {
         type: "bar",
         backgroundColor: "var(--color-boxes)",
@@ -91,32 +42,6 @@ export const BarChart = (props) => {
         tickLength: 0,
         title: {
           enabled: false,
-        },
-      },
-
-      yAxis: {
-        gridLineColor: "var(--color-boxes)",
-        labels: {
-          style: {
-            color: "var(--color-text)",
-          },
-        },
-        title: {
-          enabled: false,
-          style: {
-            color: "var(--color-text)",
-          },
-        },
-        lineWidth: 1,
-      },
-
-      legend: {
-        enabled: false,
-      },
-
-      plotOptions: {
-        series: {
-          color: "var(--color-titles)",
         },
       },
 
@@ -160,9 +85,8 @@ export const BarChart = (props) => {
   }
 
   return (
-    <div
+    <ChartWrapper
       css={`
-        ${ChartWrapper}
         height: 100%;
 
         ${medium} {
@@ -182,6 +106,6 @@ export const BarChart = (props) => {
       `}
     >
       <HighchartsReact highcharts={Highcharts} options={chartOptions} />
-    </div>
+    </ChartWrapper>
   );
 };

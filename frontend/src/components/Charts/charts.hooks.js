@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 const conf = {
   staleTime: 29 * 60 * 1000, //milliseconds,
   cacheTime: 30 * 60 * 1000,
-  retry: 0,
+  retry: 2,
 };
 
 export function queryDash() {

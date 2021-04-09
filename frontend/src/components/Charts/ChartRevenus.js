@@ -62,15 +62,37 @@ export const ChartRevenus = (props) => {
   const [dataset, setDataset] = useState([]); //set state with data to be used in useEffect
   const [chartOptions, setChartOptions] = useState(options); //set chart options when data is fetched
 
-  const { data } = useChartQuery();
+  const { data, status } = useChartQuery();
 
   useEffect(() => {
-    if (data) {
+    if (status === "success" && data) {
       setCategories(Object.keys(data.data.graph.revenus));
       setDataset(Object.values(data.data.graph.revenus));
     }
+    if (["loading", "idle"].includes(status)) {
+      return (
+        <div
+          css={`
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+          `}
+        >
+          <p>Loading...</p>
+        </div>
+      );
+    }
+
+    if (status === "error") {
+      console.log("error");
+    }
     return () => {};
-  }, [data]);
+  }, [status, data]);
 
   useEffect(() => {
     console.log("revenus", dataset);
@@ -122,14 +144,6 @@ export const ChartRevenus = (props) => {
         },
       },
 
-      // responsive: {
-      //   rules : [ {
-      //     condition: {
-      //       maxWidth: 400,
-      //     }
-      //   } ]
-      // },
-
       title: {
         text: "Revenus in Line",
         style: {
@@ -152,12 +166,7 @@ export const ChartRevenus = (props) => {
         ${ChartWrapper}
       `}
     >
-      <HighchartsReact
-        containerProps={{ style: { width: "100%" } }}
-        constructorType={"chart"}
-        highcharts={Highcharts}
-        options={chartOptions}
-      />
+      <HighchartsReact highcharts={Highcharts} options={chartOptions} />
     </div>
   );
 };

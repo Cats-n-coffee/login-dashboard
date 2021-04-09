@@ -62,15 +62,37 @@ export const ChartSales = (props) => {
   const [dataset, setDataset] = useState([]); //set state with data to be used in useEffect
   const [chartOptions, setChartOptions] = useState(options); //set chart options when data is fetched
 
-  const { data } = useChartQuery();
+  const { data, status } = useChartQuery();
 
   useEffect(() => {
-    if (data) {
+    if (status === "success" && data) {
       setCategories(Object.keys(data.data.graph.transactions));
       setDataset(Object.values(data.data.graph.transactions));
     }
+    if (["loading", "idle"].includes(status)) {
+      return (
+        <div
+          css={`
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+          `}
+        >
+          <p>Loading...</p>
+        </div>
+      );
+    }
+
+    if (status === "error") {
+      console.log("error");
+    }
     return () => {};
-  }, [data]);
+  }, [status, data]);
 
   useEffect(() => {
     console.log("sales", dataset);
@@ -146,11 +168,7 @@ export const ChartSales = (props) => {
         ${ChartWrapper}
       `}
     >
-      <HighchartsReact
-        highcharts={Highcharts}
-        options={chartOptions}
-        css={``}
-      />
+      <HighchartsReact highcharts={Highcharts} options={chartOptions} />
     </div>
   );
 };

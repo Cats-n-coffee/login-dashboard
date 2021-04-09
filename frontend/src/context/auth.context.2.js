@@ -23,12 +23,6 @@ export function AuthProvider(props) {
     if (status === "success" && data) setUser(data);
   }, [status, data]);
 
-  // when data changes, we store the user data in localstorage
-  //   React.useEffect(() => {
-  //     if (user) auth.storeUser(user);
-  //     return auth.cleanUser;
-  //   }, [user]);
-
   if (["loading", "idle"].includes(status)) {
     return (
       <div

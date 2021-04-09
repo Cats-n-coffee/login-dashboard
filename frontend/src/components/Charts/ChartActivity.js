@@ -1,10 +1,10 @@
 // eslint-disable-next-line
 import styled from "styled-components/macro";
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 import { ChartWrapper } from "./styles";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { useChartQuery } from "./charts.hooks";
 
 const options = {
   chart: {
@@ -62,24 +62,22 @@ export const ChartActivity = (props) => {
   const [dataset, setDataset] = useState([]); //set state with data to be used in useEffect
   const [chartOptions, setChartOptions] = useState(options); //set chart options when data is fetched
 
-  // eslint-disable-next-line
-  const { data, error } = useQuery("activityChart", () => {
-    fetch(`${process.env.REACT_APP_BASE_URL}/dashboard`, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setDataset(Object.values(data.data.graph.monthly_visits));
-        setCategories(Object.keys(data.data.graph.monthly_visits));
-      });
-  });
+  const { data } = useChartQuery();
 
   useEffect(() => {
-    console.log(dataset);
+    if (data) {
+      setCategories(Object.keys(data.data.graph.monthly_visits));
+      setDataset(Object.values(data.data.graph.monthly_visits));
+    }
+    return () => {};
+  }, [data]);
+
+  useEffect(() => {
+    console.log("activity", dataset);
 
     setChartOptions({
       chart: {
-        type: "spline",
+        type: "column",
         backgroundColor: "var(--color-boxes)",
         height: 200,
       },

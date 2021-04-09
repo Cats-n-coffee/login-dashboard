@@ -1,11 +1,11 @@
 // eslint-disable-next-line
 import styled from "styled-components/macro";
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 import { ChartWrapper } from "./styles";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { medium } from "../../styles/media-queries";
+import { useChartQuery } from "./charts.hooks";
 
 const options = {
   chart: {
@@ -63,20 +63,18 @@ export const BarChart = (props) => {
   const [dataset, setDataset] = useState([]); //set state with data to be used in useEffect
   const [chartOptions, setChartOptions] = useState(options); //set chart options when data is fetched
 
-  // eslint-disable-next-line
-  const { data, error } = useQuery("barChart", () => {
-    fetch(`${process.env.REACT_APP_BASE_URL}/dashboard`, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setDataset(Object.values(data.data.graph.revenus));
-        setCategories(Object.keys(data.data.graph.revenus));
-      });
-  });
+  const { data } = useChartQuery();
 
   useEffect(() => {
-    console.log(dataset);
+    if (data) {
+      setCategories(Object.keys(data.data.graph.revenus));
+      setDataset(Object.values(data.data.graph.revenus));
+    }
+    return () => {};
+  }, [data]);
+
+  useEffect(() => {
+    console.log("bar", dataset);
 
     setChartOptions({
       chart: {

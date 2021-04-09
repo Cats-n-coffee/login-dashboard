@@ -79,7 +79,6 @@ export const ChartRevenus = (props) => {
         type: "spline",
         backgroundColor: "var(--color-boxes)",
         height: 200,
-        styledMode: true,
       },
 
       xAxis: {

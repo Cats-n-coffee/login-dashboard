@@ -21,20 +21,22 @@ export default function DashboardScreen() {
         width: 100%;
         display: grid;
         grid-template-columns: minmax(0, 1fr);
-        grid-template-rows: auto 1fr;
-        max-width: 1400px;
+        grid-template-rows: auto minmax(0, 1fr);
+        max-width: 1440px;
         margin: 0 auto;
 
         ${xlarge} {
           max-height: 100vh;
           grid-template-columns: minmax(0, 1fr);
-          grid-template-rows: 6vh 94vh;
+          grid-template-rows: auto minmax(0, 1fr);
         }
       `}
     >
       <TopPanel />
       <div
         css={`
+          width: 100%;
+          max-width: 1440px;
           display: grid;
           grid-template-columns: minmax(0, 1fr);
           grid-template-rows: repeat(3, auto);
@@ -47,7 +49,7 @@ export default function DashboardScreen() {
           padding: 0.5em;
 
           ${medium} {
-            grid-template-columns: repeat(3, auto);
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             grid-template-rows: repeat(2, auto);
             grid-template-areas:
               "top-row top-row top-row"
@@ -55,14 +57,14 @@ export default function DashboardScreen() {
             grid-column-gap: 10px;
           }
 
-          ${xlarge} {
-            grid-template-columns: repeat(3, auto);
+          /* ${xlarge} {
+            grid-template-columns: repeat(3, 1fr);
             grid-template-rows: 25vh 66vh;
             grid-template-areas:
               "top-row top-row top-row"
               "bar table table";
             grid-column-gap: 10px;
-          }
+          } */
         `}
       >
         <div
@@ -76,8 +78,7 @@ export default function DashboardScreen() {
             grid-row-gap: 5px;
 
             ${medium} {
-              display: grid;
-              grid-template-columns: repeat(3, 1fr);
+              grid-template-columns: repeat(3, minmax(0, 1fr));
               grid-template-rows: auto;
               grid-column-gap: 10px;
               grid-row-gap: unset;
@@ -95,7 +96,6 @@ export default function DashboardScreen() {
             width: 100%;
 
             ${medium} {
-              width: 32.5vw;
               height: 100%;
             }
           `}
@@ -109,7 +109,6 @@ export default function DashboardScreen() {
             width: 100%;
 
             ${medium} {
-              width: 66vw;
               height: 100%;
             }
           `}

@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react";
 import { ChartWrapper } from "./styles";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { medium } from "../../styles/media-queries";
 import { useChartQuery } from "./charts.hooks";
 import { options } from "./charts.options";
 
-export const ChartActivity = (props) => {
+export const BarChart = (props) => {
   const [categories, setCategories] = useState([]); // set categories for xAxis
   const [dataset, setDataset] = useState([]); //set state with data to be used in useEffect
   const [chartOptions, setChartOptions] = useState(options); //set chart options when data is fetched
@@ -16,20 +17,19 @@ export const ChartActivity = (props) => {
 
   useEffect(() => {
     if (status === "success" && data) {
-      setCategories(Object.keys(data.data.graph.monthly_visits));
-      setDataset(Object.values(data.data.graph.monthly_visits));
+      setCategories(Object.keys(data.data.graph.revenus));
+      setDataset(Object.values(data.data.graph.revenus));
     }
   }, [status, data]);
 
   useEffect(() => {
-    console.log("activity", dataset);
+    console.log("bar", dataset);
 
     setChartOptions({
       ...options,
       chart: {
-        type: "column",
+        type: "bar",
         backgroundColor: "var(--color-boxes)",
-        height: 200,
       },
 
       xAxis: {
@@ -46,7 +46,7 @@ export const ChartActivity = (props) => {
       },
 
       title: {
-        text: "Activity per Month",
+        text: "Revenus in bars",
         style: {
           color: "var(--color-text)",
           fontWeight: "normal",
@@ -87,9 +87,22 @@ export const ChartActivity = (props) => {
   return (
     <ChartWrapper
       css={`
-        height: auto;
-        line-height: 0;
-        width: auto;
+        height: 100%;
+
+        ${medium} {
+          width: 100%;
+
+          [data-highcharts-chart] {
+            width: 100%;
+            max-width: unset;
+            height: 100%;
+
+            .highcharts-container {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
       `}
     >
       <HighchartsReact highcharts={Highcharts} options={chartOptions} />

@@ -7,6 +7,7 @@ export const MobileMenuIcon = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  z-index: 3;
 
   span {
     height: 4px;

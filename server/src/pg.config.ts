@@ -10,7 +10,6 @@ export class PgConf implements TypeOrmOptionsFactory {
     return {
       ...conf,
       type: 'postgres',
-      synchronize: true,
       entities: ['dist/entities/*.entity.js'],
     };
   }

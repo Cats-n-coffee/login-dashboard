@@ -7,7 +7,7 @@ import {
   Index,
 } from 'typeorm';
 
-@Entity('users')
+@Entity('sys_users')
 @Index(['email'], { unique: true })
 export class User {
   @PrimaryGeneratedColumn()

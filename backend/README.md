@@ -1,6 +1,6 @@
 # README
 
-- **ABOUT**: The API service server for the dashboard project.
+- **ABOUT**: The API service server for the dashboard project using Express (Abandoned, see /server).
 
 - **How to start the applicaiton**
 
